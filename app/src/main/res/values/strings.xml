@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Consulta Preco</string>
+    <string name="entrar">Entrar</string>
+    <string name="poweredby">Power by</string>
+    <string name="usuario">Usuário</string>
+    <string name="senha">Senha</string>
+    <string name="agenda">Agenda</string>
+    <string name="escolha_concorrente">Escolha o concorrente</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="feito">Feito</string>
+    <string name="selecione_praca">Selecione a praça</string>
+    <string name="selecione_nome">Selecione Nome</string>
+    <string name="selecione_endereco">Selecione Endereco</string>
+    <string name="ean">EAN:</string>
+    <string name="desc">Descrição:</string>
+    <string name="marca">Marca:</string>
+    <string name="unid_medida">Unidade de Medida:</string>
+    <string name="eanv">EAN</string>
+    <string name="descv">Descrição</string>
+    <string name="marcav">Marca</string>
+    <string name="unid_medidav">Un.Med.</string>
+
+    <string name="cifrao">R$</string>
+    <string name="preco">Preço</string>
+    <string name="busque_produto">Busque o produto pelo código</string>
+    <string name="campos_obrigatorio">Campos obrigatórios em branco</string>
+</resources>

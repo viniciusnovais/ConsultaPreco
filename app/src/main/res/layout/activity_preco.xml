@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/listaHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".33"
+            android:src="@drawable/ic_horizontal_line"
+            android:textAppearance="@style/TextAppearance.Small" />
+
+        <ImageView
+            android:id="@+id/beep"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".33"
+            android:src="@drawable/ic_search_black_64dp"
+            android:textAppearance="@style/TextAppearance.Small" />
+
+        <ImageView
+            android:id="@+id/listaVertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".33"
+            android:src="@drawable/ic_vertical_line"
+            android:textAppearance="@style/TextAppearance.Small" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutVertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/btFeitoV"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="8dp"
+            android:gravity="end"
+            android:text="@string/feito"
+            android:textAppearance="@style/TextAppearance.Small"
+            android:textColor="?attr/colorControlActivated" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvEan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2"
+                android:background="@drawable/border_editext_preco"
+                android:maxLines="1"
+                android:text="@string/eanv"
+                android:textAppearance="@style/TextAppearance.Small" />
+
+            <TextView
+                android:id="@+id/tvDesc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2"
+                android:background="@drawable/border_editext_preco"
+                android:maxLines="1"
+                android:text="@string/descv"
+                android:textAppearance="@style/TextAppearance.Small" />
+
+            <TextView
+                android:id="@+id/tvMarca"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2"
+                android:background="@drawable/border_editext_preco"
+                android:maxLines="1"
+                android:text="@string/marcav"
+                android:textAppearance="@style/TextAppearance.Small" />
+
+            <TextView
+                android:id="@+id/tvUnidMedida"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2"
+                android:background="@drawable/border_editext_preco"
+                android:maxLines="1"
+                android:text="@string/unid_medidav"
+                android:textAppearance="@style/TextAppearance.Small" />
+
+
+            <TextView
+                android:id="@+id/editPreco"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2"
+                android:background="@drawable/border_editext_preco"
+                android:maxLines="1"
+                android:text="@string/preco"
+                android:textAppearance="@style/TextAppearance.Small" />
+
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewVertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/arrowLeft"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight=".1"
+            android:elevation="5dp"
+            android:src="@drawable/ic_keyboard_arrow_left_black_36dp"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".8"
+            android:orientation="vertical">
+
+            <pdasolucoes.com.br.consultapreco.Util.CustomRecyclerView
+                android:id="@+id/customRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </pdasolucoes.com.br.consultapreco.Util.CustomRecyclerView>
+
+            <Button
+                android:id="@+id/btFeitoH"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/feito"
+                android:textAppearance="@style/TextAppearance.Small"
+                android:textColor="?attr/colorControlActivated"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/arrowRight"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight=".1"
+            android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayoutBusca"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/editCodigo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_search_black_24dp"
+            android:hint="@string/busque_produto"
+            android:imeOptions="actionNext"
+            android:textAppearance="@style/TextAppearance.Small" />
+
+
+        <LinearLayout
+            android:id="@+id/linearLayoutRespostaBusca"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ean"
+                    android:textAppearance="@style/TextAppearance.Small" />
+
+                <TextView
+                    android:id="@+id/tvEanb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" 654316464"
+                    android:textAppearance="@style/TextAppearance.Large" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvDescricao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="@string/desc"
+                    android:textAppearance="@style/TextAppearance.Small" />
+
+                <TextView
+                    android:id="@+id/tvDescb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Coca - Cola"
+                    android:textAppearance="@style/TextAppearance.Large" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="@string/marca"
+                    android:textAppearance="@style/TextAppearance.Small" />
+
+                <TextView
+                    android:id="@+id/tvMarcab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Coca - Cola"
+                    android:textAppearance="@style/TextAppearance.Large" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="@string/unid_medida"
+                    android:textAppearance="@style/TextAppearance.Small" />
+
+                <TextView
+                    android:id="@+id/tvUnidMedidab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" LT"
+                    android:textAppearance="@style/TextAppearance.Large" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/editPrecob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/border_editext_preco"
+                android:digits=",0123456789"
+                android:gravity="start"
+                android:hint="@string/cifrao"
+                android:inputType="numberDecimal"
+                android:textAppearance="@style/TextAppearance.Small" />
+
+            <Button
+                android:id="@+id/btFeitob"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/feito"
+                android:textAppearance="@style/TextAppearance.Small"
+                android:textColor="?attr/colorControlActivated" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
