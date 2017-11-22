@@ -1,30 +1,30 @@
 package pdasolucoes.com.br.consultapreco.Model;
 
 /**
- * Created by PDA on 16/11/2017.
+ * Created by PDA on 20/11/2017.
  */
 
-public class Concorrente {
+public class Agenda {
 
-    private int id;
-    private String nome;
+    private String nomeConcorrente;
+    private String data;
     private String endereco;
     private String praca;
 
-    public int getId() {
-        return id;
+    public String getNomeConcorrente() {
+        return nomeConcorrente;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setNomeConcorrente(String nomeConcorrente) {
+        this.nomeConcorrente = nomeConcorrente;
     }
 
-    public String getNome() {
-        return nome;
+    public String getData() {
+        return data;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setData(String data) {
+        this.data = data;
     }
 
     public String getEndereco() {

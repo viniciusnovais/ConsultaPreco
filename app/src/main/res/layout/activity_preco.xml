@@ -205,7 +205,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="invisible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -301,6 +301,35 @@
                 android:hint="@string/cifrao"
                 android:inputType="numberDecimal"
                 android:textAppearance="@style/TextAppearance.Small" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.Small"
+                android:gravity="start"
+                android:text="@string/opcoes"/>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content">
+
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Small"
+                    android:text="@string/oferta"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Small"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/ruptura"/>
+
+            </RadioGroup>
 
             <Button
                 android:id="@+id/btFeitob"

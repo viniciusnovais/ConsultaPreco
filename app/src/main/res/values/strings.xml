@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Consulta Preco</string>
+    <string name="app_name">Pesquisa Preço</string>
     <string name="entrar">Entrar</string>
     <string name="poweredby">Power by</string>
     <string name="usuario">Usuário</string>
@@ -24,4 +24,12 @@
     <string name="preco">Preço</string>
     <string name="busque_produto">Busque o produto pelo código</string>
     <string name="campos_obrigatorio">Campos obrigatórios em branco</string>
+    <string name="opcoes">Opções:</string>
+    <string name="oferta">Oferta</string>
+    <string name="ruptura">Ruptura</string>
+    <string name="nao">Não</string>
+    <string name="sim">Sim</string>
+    <string name="titulo">Titulo</string>
+    <string name="sair">Sair</string>
+    <string name="deseja_sair">Deseja realmente sair ?</string>
 </resources>

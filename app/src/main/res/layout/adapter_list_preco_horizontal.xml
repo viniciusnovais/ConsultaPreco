@@ -107,7 +107,38 @@
             android:textAppearance="@style/TextAppearance.Small"
             android:inputType="numberDecimal" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.Small"
+            android:gravity="start"
+            android:text="@string/opcoes"/>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content">
+
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.Small"
+                android:text="@string/oferta"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.Small"
+                android:layout_marginLeft="10dp"
+                android:text="@string/ruptura"/>
+
+        </RadioGroup>
+
+
     </LinearLayout>
+
 
 
 </LinearLayout>

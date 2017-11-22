@@ -45,22 +45,22 @@
 
     </LinearLayout>
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--android:orientation="horizontal">-->
+    <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|end"
+    android:orientation="horizontal">
 
-        <!--<include layout="@layout/fab_layout" />-->
+    <include layout="@layout/fab_layout" />
 
-        <!--<com.andremion.counterfab.CounterFab-->
-            <!--android:id="@+id/fab"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="-22dp"-->
-            <!--app:backgroundTint="@color/colorPrimary"-->
-            <!--app:srcCompat="@drawable/ic_settings_black_24dp" />-->
-    <!--</LinearLayout>-->
+    <com.andremion.counterfab.CounterFab
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="-22dp"
+        app:backgroundTint="@color/colorAccent"
+        android:src="@drawable/ic_settings_white_24dp"/>
+</LinearLayout>
 
 
 </FrameLayout>
