@@ -32,12 +32,13 @@ public class PrincipalActivity extends AppCompatActivity {
     private CounterFab fab, fab1, fab2;
     private Animation fab_open, fab_close, rotate_forward, rotate_backward;
     private Boolean isFabOpen = false;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
-        final SharedPreferences preferences = getSharedPreferences("Login", MODE_PRIVATE);
+        preferences = getSharedPreferences(LoginActivity.PREFERENCES, MODE_PRIVATE);
 
         imageAgenda = (ImageView) findViewById(R.id.imageAgenda);
 
@@ -76,8 +77,7 @@ public class PrincipalActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         SharedPreferences.Editor editor = preferences.edit();
-                        editor.clear();
-                        editor.commit();
+                        editor.clear().commit();
                         Intent i = new Intent(PrincipalActivity.this, LoginActivity.class);
                         startActivity(i);
                         finish();
