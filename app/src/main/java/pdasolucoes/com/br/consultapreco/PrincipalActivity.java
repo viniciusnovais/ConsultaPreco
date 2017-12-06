@@ -121,7 +121,8 @@ public class PrincipalActivity extends AbsRuntimePermission {
             }
         });
 
-        requestAppPermissions(new String[]{Manifest.permission.CAMERA}, R.string.msg, REQUEST_PERMISSION);
+        requestAppPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                R.string.msg, REQUEST_PERMISSION);
     }
 
     @Override

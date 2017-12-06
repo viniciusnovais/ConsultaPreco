@@ -37,25 +37,24 @@
             android:textAppearance="@style/TextAppearance.Small" />
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btFeito"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/feito"
+        android:background="@color/colorAccent"
+        android:textAppearance="@style/TextAppearance.Small"
+        android:textColor="@color/colorWhite" />
+
     <LinearLayout
         android:id="@+id/linearLayoutVertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginTop="20dp"
         android:orientation="vertical"
         android:visibility="gone">
 
-        <Button
-            android:id="@+id/btFeitoV"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="8dp"
-            android:gravity="end"
-            android:text="@string/feito"
-            android:textAppearance="@style/TextAppearance.Small"
-            android:textColor="?attr/colorControlActivated" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -119,7 +118,9 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewVertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
 
@@ -153,19 +154,6 @@
                 android:layout_height="match_parent">
 
             </pdasolucoes.com.br.consultapreco.Util.CustomRecyclerView>
-
-            <Button
-                android:id="@+id/btFeitoH"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/feito"
-                android:textAppearance="@style/TextAppearance.Small"
-                android:textColor="?attr/colorControlActivated"
-                android:visibility="gone" />
 
         </LinearLayout>
 
@@ -208,86 +196,93 @@
             android:visibility="invisible">
 
             <LinearLayout
+                android:id="@+id/linearLayoutDetalhe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/ean"
-                    android:textAppearance="@style/TextAppearance.Small" />
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tvEanb"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ean"
+                        android:textAppearance="@style/TextAppearance.Small" />
+
+                    <TextView
+                        android:id="@+id/tvEanb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" 654316464"
+                        android:textAppearance="@style/TextAppearance.Large" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text=" 654316464"
-                    android:textAppearance="@style/TextAppearance.Large" />
+                    android:orientation="horizontal">
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/tvDescricao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="@string/desc"
+                        android:textAppearance="@style/TextAppearance.Small" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tvDescb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" Coca - Cola"
+                        android:textAppearance="@style/TextAppearance.Large" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tvDescricao"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:text="@string/desc"
-                    android:textAppearance="@style/TextAppearance.Small" />
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tvDescb"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="@string/marca"
+                        android:textAppearance="@style/TextAppearance.Small" />
+
+                    <TextView
+                        android:id="@+id/tvMarcab"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" Coca - Cola"
+                        android:textAppearance="@style/TextAppearance.Large" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text=" Coca - Cola"
-                    android:textAppearance="@style/TextAppearance.Large" />
-            </LinearLayout>
+                    android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="@string/unid_medida"
+                        android:textAppearance="@style/TextAppearance.Small" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:text="@string/marca"
-                    android:textAppearance="@style/TextAppearance.Small" />
+                    <TextView
+                        android:id="@+id/tvUnidMedidab"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" LT"
+                        android:textAppearance="@style/TextAppearance.Large" />
 
-                <TextView
-                    android:id="@+id/tvMarcab"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" Coca - Cola"
-                    android:textAppearance="@style/TextAppearance.Large" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:text="@string/unid_medida"
-                    android:textAppearance="@style/TextAppearance.Small" />
-
-                <TextView
-                    android:id="@+id/tvUnidMedidab"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" LT"
-                    android:textAppearance="@style/TextAppearance.Large" />
-
+                </LinearLayout>
             </LinearLayout>
 
             <EditText
@@ -305,43 +300,39 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.Small"
                 android:gravity="start"
-                android:text="@string/opcoes"/>
+                android:text="@string/opcoes"
+                android:textAppearance="@style/TextAppearance.Small" />
 
             <RadioGroup
+                android:id="@+id/groupOpcoesB"
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_height="wrap_content">
+                android:orientation="horizontal">
 
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.Small"
-                    android:text="@string/oferta"/>
+                    android:text="@string/oferta"
+                    android:textAppearance="@style/TextAppearance.Small" />
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.Small"
                     android:layout_marginLeft="10dp"
-                    android:text="@string/ruptura"/>
+                    android:text="@string/ruptura"
+                    android:textAppearance="@style/TextAppearance.Small" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/fifo"
+                    android:textAppearance="@style/TextAppearance.Small" />
 
             </RadioGroup>
-
-            <Button
-                android:id="@+id/btFeitob"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/feito"
-                android:textAppearance="@style/TextAppearance.Small"
-                android:textColor="?attr/colorControlActivated" />
 
         </LinearLayout>
 

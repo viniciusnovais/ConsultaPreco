@@ -8,95 +8,104 @@
 
 
     <LinearLayout
+        android:id="@+id/llItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/linearLayoutDetalhe"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/ean"
-                android:textAppearance="@style/TextAppearance.Small" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tvEan"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ean"
+                    android:textAppearance="@style/TextAppearance.Small" />
+
+                <TextView
+                    android:id="@+id/tvEan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" 654316464"
+                    android:textAppearance="@style/TextAppearance.Large" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=" 654316464"
-                android:textAppearance="@style/TextAppearance.Large" />
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tvDescricao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="@string/desc"
+                    android:textAppearance="@style/TextAppearance.Small" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tvDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Coca - Cola"
+                    android:textAppearance="@style/TextAppearance.Large" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/tvDescricao"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/desc"
-                android:textAppearance="@style/TextAppearance.Small" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tvDesc"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="@string/marca"
+                    android:textAppearance="@style/TextAppearance.Small" />
+
+                <TextView
+                    android:id="@+id/tvMarca"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Coca - Cola"
+                    android:textAppearance="@style/TextAppearance.Large" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=" Coca - Cola"
-                android:textAppearance="@style/TextAppearance.Large" />
-        </LinearLayout>
+                android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="@string/unid_medida"
+                    android:textAppearance="@style/TextAppearance.Small" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/marca"
-                android:textAppearance="@style/TextAppearance.Small" />
+                <TextView
+                    android:id="@+id/tvUnidMedida"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" LT"
+                    android:textAppearance="@style/TextAppearance.Large" />
 
-            <TextView
-                android:id="@+id/tvMarca"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" Coca - Cola"
-                android:textAppearance="@style/TextAppearance.Large" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/unid_medida"
-                android:textAppearance="@style/TextAppearance.Small" />
-
-            <TextView
-                android:id="@+id/tvUnidMedida"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" LT"
-                android:textAppearance="@style/TextAppearance.Large" />
-
+            </LinearLayout>
         </LinearLayout>
 
         <EditText
+            android:id="@+id/editPreco"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -104,41 +113,48 @@
             android:digits=",0123456789"
             android:gravity="start"
             android:hint="@string/cifrao"
-            android:textAppearance="@style/TextAppearance.Small"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            android:textAppearance="@style/TextAppearance.Small" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.Small"
             android:gravity="start"
-            android:text="@string/opcoes"/>
+            android:text="@string/opcoes"
+            android:textAppearance="@style/TextAppearance.Small" />
 
         <RadioGroup
+            android:id="@+id/groupOpcoesH"
             android:layout_width="match_parent"
-            android:orientation="horizontal"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_height="wrap_content">
+            android:orientation="horizontal">
 
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.Small"
-                android:text="@string/oferta"/>
+                android:text="@string/oferta"
+                android:textAppearance="@style/TextAppearance.Small" />
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.Small"
                 android:layout_marginLeft="10dp"
-                android:text="@string/ruptura"/>
+                android:text="@string/ruptura"
+                android:textAppearance="@style/TextAppearance.Small" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/fifo"
+                android:textAppearance="@style/TextAppearance.Small" />
 
         </RadioGroup>
 
 
     </LinearLayout>
-
 
 
 </LinearLayout>

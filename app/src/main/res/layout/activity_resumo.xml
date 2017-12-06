@@ -78,14 +78,14 @@
         android:textAppearance="@style/TextAppearance.Large"/>
 
     <Button
-        android:id="@+id/btConcluir"
-        android:textAppearance="@style/TextAppearance.Small"
-        android:layout_width="match_parent"
+        android:id="@+id/btDone"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_gravity="end"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="Concluir"
-        android:textAllCaps="false"
-        android:textColor="@color/colorWhite"
-        android:textStyle="bold" />
+        android:layout_marginRight="8dp"
+        android:textAppearance="@style/TextAppearance.Large"
+        android:text="@string/ok"
+        android:textColor="?attr/colorControlActivated" />
 
 </LinearLayout>

@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:text="@string/cancelar"
-            android:textAppearance="@style/TextAppearance.Large"
+            android:textAppearance="@style/TextAppearance.Small"
             android:textColor="?attr/colorControlActivated" />
 
         <Button
@@ -90,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:textAppearance="@style/TextAppearance.Large"
+            android:textAppearance="@style/TextAppearance.Small"
             android:text="@string/feito"
             android:textColor="?attr/colorControlActivated" />
 

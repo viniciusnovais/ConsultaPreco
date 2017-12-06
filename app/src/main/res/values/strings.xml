@@ -44,4 +44,9 @@
     <string name="concorrente">Concorrente</string>
     <string name="dataPesquisa">Data Pesquisa</string>
     <string name="msg">Permita Todos</string>
+    <string name="ok">Ok</string>
+    <string name="eans">Eans</string>
+    <string name="descricao">Descrição</string>
+    <string name="op">Opções</string>
+    <string name="fifo">Fifo</string>
 </resources>

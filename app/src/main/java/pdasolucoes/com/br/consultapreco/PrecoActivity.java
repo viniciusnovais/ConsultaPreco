@@ -1,12 +1,18 @@
 package pdasolucoes.com.br.consultapreco;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,15 +21,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import pdasolucoes.com.br.consultapreco.Adapter.ListaPrecoHorizontal;
 import pdasolucoes.com.br.consultapreco.Adapter.ListaPrecoVertical;
+import pdasolucoes.com.br.consultapreco.Model.ItemColeta;
 import pdasolucoes.com.br.consultapreco.Util.CustomLinearLayoutManager;
 import pdasolucoes.com.br.consultapreco.Util.CustomRecyclerView;
+import pdasolucoes.com.br.consultapreco.Util.FuncoesUtil;
+import pdasolucoes.com.br.consultapreco.Util.ImageResizeUtils;
 
 /**
  * Created by PDA on 16/11/2017.
@@ -33,13 +48,19 @@ public class PrecoActivity extends AppCompatActivity {
 
     private CustomRecyclerView customRecyclerView;
     private List<Integer> lista = new ArrayList<>();
+    private AlertDialog dialogOpcao;
     private ListaPrecoHorizontal adapterHorizontal;
     private ListaPrecoVertical adapterVertical;
-    private LinearLayout linearLayoutHorizontal, linearLayoutVertical, linearLayoutBusca;
+    private LinearLayout linearLayoutHorizontal, linearLayoutVertical, linearLayoutBusca, linearLayoutDetalhe;
     private RecyclerView recyclerViewVertical;
     private ImageView arrowLeft, arrowRight;
+    private RadioGroup groupOpcoesB;
+    private Button btFeito;
     private ImageView btListaHorizontal, btListaVertical, btBeep;
     private int position = 0;
+    private File file;
+    private ItemColeta itemColeta = new ItemColeta();
+    private List<ItemColeta> listaColeta = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,6 +74,8 @@ public class PrecoActivity extends AppCompatActivity {
         linearLayoutVertical = (LinearLayout) findViewById(R.id.linearLayoutVertical);
         recyclerViewVertical = (RecyclerView) findViewById(R.id.recyclerViewVertical);
         linearLayoutBusca = (LinearLayout) findViewById(R.id.linearLayoutBusca);
+        groupOpcoesB = (RadioGroup) findViewById(R.id.groupOpcoesB);
+        btFeito = (Button) findViewById(R.id.btFeito);
 
         btListaHorizontal = (ImageView) findViewById(R.id.listaHorizontal);
         btListaVertical = (ImageView) findViewById(R.id.listaVertical);
@@ -62,6 +85,12 @@ public class PrecoActivity extends AppCompatActivity {
             lista.add(i);
         }
 
+        btFeito.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //aqui irei validar se pode enviar parcial e se ja respondeu tudo
+            }
+        });
 
         btListaHorizontal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,13 +100,25 @@ public class PrecoActivity extends AppCompatActivity {
                 linearLayoutVertical.setVisibility(View.GONE);
                 linearLayoutBusca.setVisibility(View.GONE);
 
-                final Button btFeito = (Button) findViewById(R.id.btFeitoH);
-
                 CustomLinearLayoutManager llm = new CustomLinearLayoutManager(PrecoActivity.this, LinearLayoutManager.HORIZONTAL, false);
                 customRecyclerView.setLayoutManager(llm);
 
                 adapterHorizontal = new ListaPrecoHorizontal(PrecoActivity.this, lista);
                 customRecyclerView.setAdapter(adapterHorizontal);
+
+                adapterHorizontal.ItemPrecoListener(new ListaPrecoHorizontal.ItemPreco() {
+                    @Override
+                    public void onPreco(String preco) {
+                        itemColeta.setPreco(new BigDecimal(preco));
+                    }
+                });
+
+                adapterHorizontal.OpcaoClickListener(new ListaPrecoHorizontal.OpcaoClick() {
+                    @Override
+                    public void onClick(String opcao) {
+                        acaoAposSelecao(opcao);
+                    }
+                });
 
                 arrowRight.setVisibility(View.VISIBLE);
                 arrowRight.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +135,6 @@ public class PrecoActivity extends AppCompatActivity {
 
                                 if (position == customRecyclerView.getAdapter().getItemCount() - 1) {
                                     arrowRight.setVisibility(View.INVISIBLE);
-                                    btFeito.setVisibility(View.VISIBLE);
                                 }
                             }
                         }, 100);
@@ -103,7 +143,6 @@ public class PrecoActivity extends AppCompatActivity {
 
 
                 arrowLeft.setVisibility(View.INVISIBLE);
-                btFeito.setVisibility(View.GONE);
                 arrowLeft.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -112,7 +151,6 @@ public class PrecoActivity extends AppCompatActivity {
                             public void run() {
 
                                 arrowRight.setVisibility(View.VISIBLE);
-                                btFeito.setVisibility(View.GONE);
 
                                 position--;
                                 customRecyclerView.scrollToPosition(position);
@@ -123,13 +161,6 @@ public class PrecoActivity extends AppCompatActivity {
                         }, 100);
                     }
                 });
-
-                btFeito.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
             }
         });
 
@@ -138,11 +169,11 @@ public class PrecoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                final String[] precoColetado = new String[1];
+
                 linearLayoutHorizontal.setVisibility(View.GONE);
                 linearLayoutVertical.setVisibility(View.VISIBLE);
                 linearLayoutBusca.setVisibility(View.GONE);
-
-                Button btFeito = (Button) findViewById(R.id.btFeitoV);
 
                 arrowRight.setVisibility(View.INVISIBLE);
                 arrowLeft.setVisibility(View.INVISIBLE);
@@ -153,10 +184,19 @@ public class PrecoActivity extends AppCompatActivity {
                 adapterVertical = new ListaPrecoVertical(PrecoActivity.this, lista);
                 recyclerViewVertical.setAdapter(adapterVertical);
 
-                btFeito.setOnClickListener(new View.OnClickListener() {
+                adapterVertical.ItemClickListener(new ListaPrecoVertical.ItemClick() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(int position) {
 
+                        popupOpcoes(precoColetado[0]);
+                    }
+                });
+
+                adapterVertical.ItemPrecoListener(new ListaPrecoVertical.ItemPreco() {
+                    @Override
+                    public void onPreco(String preco) {
+                        precoColetado[0] = preco;
+                        itemColeta.setPreco(new BigDecimal(preco));
                     }
                 });
             }
@@ -168,11 +208,26 @@ public class PrecoActivity extends AppCompatActivity {
                 linearLayoutHorizontal.setVisibility(View.GONE);
                 linearLayoutVertical.setVisibility(View.GONE);
                 linearLayoutBusca.setVisibility(View.VISIBLE);
+                linearLayoutDetalhe = (LinearLayout) findViewById(R.id.linearLayoutDetalhe);
+
+                linearLayoutDetalhe.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FuncoesUtil.popupEans(PrecoActivity.this);
+                    }
+                });
 
                 final EditText editCodigo = (EditText) findViewById(R.id.editCodigo);
                 final EditText editPreco = (EditText) findViewById(R.id.editPrecob);
-                final Button btFeito = (Button) findViewById(R.id.btFeitob);
                 final LinearLayout linearLayoutRespostaBusca = (LinearLayout) findViewById(R.id.linearLayoutRespostaBusca);
+
+                groupOpcoesB.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+
+                        acaoAposSelecao(FuncoesUtil.verificaRadioGroup(group, checkedId));
+                    }
+                });
 
                 editCodigo.setOnTouchListener(new View.OnTouchListener() {
                     @Override
@@ -233,7 +288,81 @@ public class PrecoActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    //aqui irei passar o produto selecionado como parametro
+    private void popupOpcoes(final String preco) {
+        View v = View.inflate(PrecoActivity.this, R.layout.popup_opcoes, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(PrecoActivity.this);
+        builder.setView(v);
+
+        TextView tvDescricao;
+        ListView listViewEans;
+        RadioGroup group;
+        Button btFeito, btCancelar;
+
+        tvDescricao = (TextView) v.findViewById(R.id.tvDescricao);
+        listViewEans = (ListView) v.findViewById(R.id.listViewEans);
+        group = (RadioGroup) v.findViewById(R.id.groupOpcoes);
+        btFeito = (Button) v.findViewById(R.id.btFeito);
+        btCancelar = (Button) v.findViewById(R.id.btCancelar);
+
+        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+
+                acaoAposSelecao(FuncoesUtil.verificaRadioGroup(group, checkedId));
+
+            }
+        });
+
+        btCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogOpcao.dismiss();
+            }
+        });
+
+        btFeito.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
 
+        dialogOpcao = builder.create();
+        dialogOpcao.show();
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 0) {
+
+                if (file != null && file.exists()) {
+
+                    //mostrandao imagem ao clicar em oferta
+                    FuncoesUtil.mostraImagem(PrecoActivity.this, Uri.fromFile(file));
+                }
+            }
+        }
+    }
+
+
+    private void acaoAposSelecao(String opcao) {
+
+        if (opcao.equals("Oferta")) {
+            //foto e preco
+            file = FuncoesUtil.AbrirCamera(PrecoActivity.this);
+            itemColeta.setCaminhoFoto(file.getAbsolutePath());
+        } else if (opcao.equals("Ruptura")) {
+            //não pega preco, só insere flag
+            itemColeta.setPreco(new BigDecimal(0));
+        }
+        itemColeta.setTipo(opcao);
     }
 }
