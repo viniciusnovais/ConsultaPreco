@@ -18,6 +18,15 @@ public class Produto {
     private String oferta;
     private String unidMedida;
 
+
+    public int getCodProduto() {
+        return codProduto;
+    }
+
+    public void setCodProduto(int codProduto) {
+        this.codProduto = codProduto;
+    }
+
     public String getEan() {
         return ean;
     }

@@ -1,10 +1,13 @@
 package pdasolucoes.com.br.consultapreco.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -22,6 +25,7 @@ public class ListaAgenda extends RecyclerView.Adapter<ListaAgenda.MyViewHolder> 
     private Context context;
     private LayoutInflater layoutInflater;
     private ItemClick itemClick;
+    private int usuarioLogado=0;
 
     public interface ItemClick {
         void onClick(int position);
@@ -31,9 +35,10 @@ public class ListaAgenda extends RecyclerView.Adapter<ListaAgenda.MyViewHolder> 
         this.itemClick = itemClick;
     }
 
-    public ListaAgenda(List<Agenda> lista, Context context) {
+    public ListaAgenda(List<Agenda> lista, Context context, int usuarioLogado ) {
         this.lista = lista;
         this.context = context;
+        this.usuarioLogado = usuarioLogado;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -49,6 +54,20 @@ public class ListaAgenda extends RecyclerView.Adapter<ListaAgenda.MyViewHolder> 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
+        Agenda a = lista.get(position);
+
+        if (a.getStatus()==1 && usuarioLogado == a.getIdUsuario()){
+
+            holder.llAgenda.setBackgroundColor(Color.YELLOW);
+        }
+
+        holder.tvNome.setText(a.getNomeConcorrente());
+
+        holder.tvData.setText(a.getData());
+
+        holder.tvLoja.setText(a.getNomeLoja());
+
+        holder.tvPraca.setText(a.getPraca());
     }
 
     @Override
@@ -58,15 +77,18 @@ public class ListaAgenda extends RecyclerView.Adapter<ListaAgenda.MyViewHolder> 
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextView tvNome, tvPraca,tvEndereco,tvData;
+        public TextView tvNome, tvPraca, tvLoja, tvData;
+        public LinearLayout llAgenda;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
             tvNome = (TextView) itemView.findViewById(R.id.nomeConcorrente);
             tvPraca = (TextView) itemView.findViewById(R.id.praca);
-            tvEndereco = (TextView) itemView.findViewById(R.id.endereco);
+            tvLoja = (TextView) itemView.findViewById(R.id.loja);
             tvData = (TextView) itemView.findViewById(R.id.data);
+            llAgenda = (LinearLayout) itemView.findViewById(R.id.llAgenda);
+            itemView.setOnClickListener(this);
         }
 
         @Override

@@ -6,10 +6,63 @@ package pdasolucoes.com.br.consultapreco.Model;
 
 public class Agenda {
 
+    private int id;
+    private int idConcorrente;
     private String nomeConcorrente;
     private String data;
-    private String endereco;
+    private int idLoja;
+    private String nomeLoja;
     private String praca;
+    private int status;
+    private int idUsuario;
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public int getIdConcorrente() {
+        return idConcorrente;
+    }
+
+    public void setIdConcorrente(int idConcorrente) {
+        this.idConcorrente = idConcorrente;
+    }
+
+    public int getIdLoja() {
+        return idLoja;
+    }
+
+    public void setIdLoja(int idLoja) {
+        this.idLoja = idLoja;
+    }
+
+    public String getNomeLoja() {
+        return nomeLoja;
+    }
+
+    public void setNomeLoja(String nomeLoja) {
+        this.nomeLoja = nomeLoja;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getNomeConcorrente() {
         return nomeConcorrente;
@@ -27,13 +80,7 @@ public class Agenda {
         this.data = data;
     }
 
-    public String getEndereco() {
-        return endereco;
-    }
 
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
 
     public String getPraca() {
         return praca;

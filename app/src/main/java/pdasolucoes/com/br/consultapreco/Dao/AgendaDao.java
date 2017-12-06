@@ -2,7 +2,11 @@ package pdasolucoes.com.br.consultapreco.Dao;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import pdasolucoes.com.br.consultapreco.Model.Agenda;
 
@@ -13,10 +17,10 @@ import pdasolucoes.com.br.consultapreco.Model.Agenda;
 public class AgendaDao {
 
     public SQLiteDatabase database;
-    private  DbHelper helper;
+    private DbHelper helper;
 
 
-    public AgendaDao(Context context){
+    public AgendaDao(Context context) {
         helper = new DbHelper(context);
     }
 
@@ -34,15 +38,84 @@ public class AgendaDao {
             database.close();
     }
 
-    public long incluir (Agenda agenda){
+    public void incluir(List<Agenda> lista) {
 
-        ContentValues values = new ContentValues();
+        try {
 
-        values.put("nomeConcorrente", agenda.getNomeConcorrente());
-        values.put("data", agenda.getData());
-        values.put("endereco", agenda.getEndereco());
-        values.put("praca", agenda.getPraca());
+            deletar();
 
-        return getDatabase().insert("agenda",null,values);
+            for (Agenda agenda : lista) {
+
+                ContentValues values = new ContentValues();
+
+                values.put("id", agenda.getId());
+                values.put("idConcorrente", agenda.getIdConcorrente());
+                values.put("nomeConcorrente", agenda.getNomeConcorrente());
+                values.put("idLoja", agenda.getIdLoja());
+                values.put("nomeLoja", agenda.getNomeLoja());
+                values.put("data", agenda.getData());
+                values.put("praca", agenda.getPraca());
+                values.put("status", agenda.getStatus());
+                values.put("idUsuario", agenda.getIdUsuario());
+
+                getDatabase().insert("agenda", null, values);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private void deletar() {
+        getDatabase().delete("agenda", null, null);
+    }
+
+    public List<Agenda> listar(String praca) {
+        List<Agenda> lista = new ArrayList<>();
+        Cursor cursor = getDatabase().rawQuery("SELECT * FROM agenda WHERE praca = ?", new String[]{praca});
+
+        try {
+            while (cursor.moveToNext()) {
+                Agenda a = new Agenda();
+
+                a.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                a.setIdConcorrente(cursor.getInt(cursor.getColumnIndex("idConcorrente")));
+                a.setNomeConcorrente(cursor.getString(cursor.getColumnIndex("nomeConcorrente")));
+                a.setData(cursor.getString(cursor.getColumnIndex("data")));
+                a.setIdLoja(cursor.getInt(cursor.getColumnIndex("idLoja")));
+                a.setNomeLoja(cursor.getString(cursor.getColumnIndex("nomeLoja")));
+                a.setPraca(cursor.getString(cursor.getColumnIndex("praca")));
+                a.setStatus(cursor.getInt(cursor.getColumnIndex("status")));
+                a.setIdUsuario(cursor.getInt(cursor.getColumnIndex("idUsuario")));
+
+                lista.add(a);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cursor.close();
+        }
+
+        return lista;
+    }
+
+
+    public int idAgendaAberta(int idUsuario) {
+
+        Cursor cursor = getDatabase().rawQuery("SELECT id FROM agenda WHERE idUsuario = ? and status = 1 ", new String[]{idUsuario + ""});
+
+        try {
+            while (cursor.moveToNext()) {
+                return cursor.getInt(cursor.getColumnIndex("id"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cursor.close();
+        }
+
+        return 0;
     }
 }

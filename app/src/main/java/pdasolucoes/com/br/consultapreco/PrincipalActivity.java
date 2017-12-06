@@ -1,5 +1,6 @@
 package pdasolucoes.com.br.consultapreco;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,10 +26,11 @@ import pdasolucoes.com.br.consultapreco.Util.SpinnerDialog;
  * Created by PDA on 16/11/2017.
  */
 
-public class PrincipalActivity extends AppCompatActivity {
+public class PrincipalActivity extends AbsRuntimePermission {
 
     private ImageView imageAgenda;
-    private SpinnerDialog spinnerDialogPraca, spinnerDialogEndereco, spinnerDialogNome;
+    private static final int REQUEST_PERMISSION = 10;
+    private SpinnerDialog spinnerDialogPraca, spinnerEndereco, spinnerDialogNome;
     private CounterFab fab, fab1, fab2;
     private Animation fab_open, fab_close, rotate_forward, rotate_backward;
     private Boolean isFabOpen = false;
@@ -51,7 +53,8 @@ public class PrincipalActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                popupFiltroConcorrente();
+                popupFiltroPraca();
+
             }
         });
 
@@ -117,9 +120,16 @@ public class PrincipalActivity extends AppCompatActivity {
                 animateFAB();
             }
         });
+
+        requestAppPermissions(new String[]{Manifest.permission.CAMERA}, R.string.msg, REQUEST_PERMISSION);
     }
 
-    private void popupFiltroConcorrente() {
+    @Override
+    public void onPermissionsGranted(int requestCode) {
+
+    }
+
+    private void popupFiltroPraca() {
         View v = View.inflate(this, R.layout.popup_filtro_concorrente, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -141,12 +151,10 @@ public class PrincipalActivity extends AppCompatActivity {
         dialog = builder.create();
         dialog.show();
 
-        for (int i = 0; i < 10; i++) {
-            arrayPraca.add("item praça" + (i + 1));
-            arrayEndereco.add("item endereco " + (i + 1));
-            arrayNome.add("item nome " + (i + 1));
-        }
+        //aqui virão todas as praças cadastradas, mas como ainda não tenho acesso a tabela, estou passando essa de teste
 
+        arrayPraca.add("TESTE");
+        arrayPraca.add("outra");
 
         //praca
         tvPraca.setOnClickListener(new View.OnClickListener() {
@@ -159,7 +167,6 @@ public class PrincipalActivity extends AppCompatActivity {
         spinnerDialogPraca.bindOnSpinerListener(new OnSpinerItemClick() {
             @Override
             public void onClick(String s, int i) {
-                Toast.makeText(getApplicationContext(), "select: " + s, Toast.LENGTH_SHORT).show();
                 tvPraca.setText(s);
             }
         });
@@ -209,7 +216,13 @@ public class PrincipalActivity extends AppCompatActivity {
         btFeito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(PrincipalActivity.this, PrecoActivity.class));
+                Intent i = new Intent(PrincipalActivity.this, AgendaActivity.class);
+                i.putExtra("praca", tvPraca.getText().toString());
+                if (!tvPraca.getText().toString().equals("")) {
+                    startActivity(i);
+                } else {
+                    Toast.makeText(PrincipalActivity.this, "Selecione uma praça", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

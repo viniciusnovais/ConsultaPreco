@@ -33,4 +33,15 @@
     <string name="sair">Sair</string>
     <string name="deseja_sair">Deseja realmente sair ?</string>
     <string name="carregando">Carregando...</string>
+    <string name="resumo">Resumo</string>
+    <string name="tempo">Tempo</string>
+    <string name="itens">Itens</string>
+    <string name="quantidade">Quantidade</string>
+    <string name="naoencontrados">Não Encontrados</string>
+    <string name="rupturas">Ruptura</string>
+    <string name="confirma_pesquisa">Confirma dados da pesquisa ?</string>
+    <string name="praca">Praça</string>
+    <string name="concorrente">Concorrente</string>
+    <string name="dataPesquisa">Data Pesquisa</string>
+    <string name="msg">Permita Todos</string>
 </resources>

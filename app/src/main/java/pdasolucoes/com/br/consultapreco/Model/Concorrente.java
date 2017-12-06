@@ -8,8 +8,6 @@ public class Concorrente {
 
     private int id;
     private String nome;
-    private String endereco;
-    private String praca;
 
     public int getId() {
         return id;
@@ -27,19 +25,4 @@ public class Concorrente {
         this.nome = nome;
     }
 
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-
-    public String getPraca() {
-        return praca;
-    }
-
-    public void setPraca(String praca) {
-        this.praca = praca;
-    }
 }

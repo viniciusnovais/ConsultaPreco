@@ -40,8 +40,6 @@ public class ConcorrenteDao {
 
         values.put("id", concorrente.getId() );
         values.put("nome", concorrente.getNome());
-        values.put("endereco", concorrente.getEndereco());
-        values.put("praca", concorrente.getPraca());
 
         return getDatabase().insert("concorrente", null, values);
     }
