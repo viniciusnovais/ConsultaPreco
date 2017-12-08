@@ -13,8 +13,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.List;
+
+import pdasolucoes.com.br.consultapreco.Dao.CategoriaDao;
+import pdasolucoes.com.br.consultapreco.Model.Categoria;
 import pdasolucoes.com.br.consultapreco.Model.Usuario;
 import pdasolucoes.com.br.consultapreco.Services.AutenticacaoService;
+import pdasolucoes.com.br.consultapreco.Services.CategoriaService;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -57,6 +62,8 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
 
 
@@ -90,15 +97,57 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putInt("idUsuario", usuario.getId());
                     editor.putString("login", login);
-                    editor.putString("nome",usuario.getNome());
+                    editor.putString("nome", usuario.getNome());
                     editor.putString("senha", senha);
                     editor.commit();
-                    Intent intent = new Intent(LoginActivity.this, PrincipalActivity.class);
-                    startActivity(intent);
-                    finish();
+
+                    AsyncGetCateg task = new AsyncGetCateg();
+                    task.execute();
+
+
                 } else {
                     Toast.makeText(LoginActivity.this, usuario.getMsgErro(), Toast.LENGTH_SHORT).show();
                 }
+            }
+        }
+    }
+
+    private class AsyncGetCateg extends AsyncTask {
+        ProgressDialog progressDialog;
+        CategoriaDao categoriaDao = new CategoriaDao(LoginActivity.this);
+
+        @Override
+
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(LoginActivity.this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setMessage(getString(R.string.carregando));
+            progressDialog.setCanceledOnTouchOutside(true);
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+
+            List<Categoria> lista = CategoriaService.listarCategoria();
+
+            return lista;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+
+                categoriaDao.incluir((List<Categoria>) o);
+
+                Intent intent = new Intent(LoginActivity.this, PrincipalActivity.class);
+                startActivity(intent);
+                finish();
             }
         }
     }

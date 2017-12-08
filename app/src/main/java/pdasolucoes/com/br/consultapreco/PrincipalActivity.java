@@ -53,7 +53,10 @@ public class PrincipalActivity extends AbsRuntimePermission {
             @Override
             public void onClick(View v) {
 
-                popupFiltroPraca();
+//                popupFiltroPraca();
+
+                Intent i = new Intent(PrincipalActivity.this, AgendaActivity.class);
+                startActivity(i);
 
             }
         });
@@ -164,13 +167,13 @@ public class PrincipalActivity extends AbsRuntimePermission {
                 spinnerDialogPraca.showSpinerDialog();
             }
         });
-        spinnerDialogPraca = new SpinnerDialog(PrincipalActivity.this, arrayPraca, getString(R.string.selecione_praca));
-        spinnerDialogPraca.bindOnSpinerListener(new OnSpinerItemClick() {
-            @Override
-            public void onClick(String s, int i) {
-                tvPraca.setText(s);
-            }
-        });
+//        spinnerDialogPraca = new SpinnerDialog(PrincipalActivity.this, arrayPraca, getString(R.string.selecione_praca));
+//        spinnerDialogPraca.bindOnSpinerListener(new OnSpinerItemClick() {
+//            @Override
+//            public void onClick(String s, int i) {
+//                tvPraca.setText(s);
+//            }
+//        });
 
         //nome
 //        tvNome.setOnClickListener(new View.OnClickListener() {

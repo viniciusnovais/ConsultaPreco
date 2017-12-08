@@ -34,11 +34,15 @@ import java.util.List;
 
 import pdasolucoes.com.br.consultapreco.Adapter.ListaPrecoHorizontal;
 import pdasolucoes.com.br.consultapreco.Adapter.ListaPrecoVertical;
+import pdasolucoes.com.br.consultapreco.Dao.CategoriaDao;
+import pdasolucoes.com.br.consultapreco.Interfaces.OnSpinerItemClick;
+import pdasolucoes.com.br.consultapreco.Model.Categoria;
 import pdasolucoes.com.br.consultapreco.Model.ItemColeta;
 import pdasolucoes.com.br.consultapreco.Util.CustomLinearLayoutManager;
 import pdasolucoes.com.br.consultapreco.Util.CustomRecyclerView;
 import pdasolucoes.com.br.consultapreco.Util.FuncoesUtil;
 import pdasolucoes.com.br.consultapreco.Util.ImageResizeUtils;
+import pdasolucoes.com.br.consultapreco.Util.SpinnerDialog;
 
 /**
  * Created by PDA on 16/11/2017.
@@ -55,10 +59,14 @@ public class PrecoActivity extends AppCompatActivity {
     private RecyclerView recyclerViewVertical;
     private ImageView arrowLeft, arrowRight;
     private RadioGroup groupOpcoesB;
+    private SpinnerDialog spinnerSecao, spinnerSubSecao, spinnerTipo, spinnerSubTipo, spinnerProduto;
     private Button btFeito;
-    private ImageView btListaHorizontal, btListaVertical, btBeep;
+    private ImageView btListaHorizontal, btListaVertical, btBeep, imageFilter;
     private int position = 0;
     private File file;
+    private CategoriaDao categoriaDao;
+    private LinearLayout llFiltro;
+    private TextView tvSecao, tvSubSecao, tvTipo, tvSubTipo, tvProduto;
     private ItemColeta itemColeta = new ItemColeta();
     private List<ItemColeta> listaColeta = new ArrayList<>();
 
@@ -66,6 +74,8 @@ public class PrecoActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preco);
+
+        categoriaDao = new CategoriaDao(this);
 
         arrowRight = (ImageView) findViewById(R.id.arrowRight);
         arrowLeft = (ImageView) findViewById(R.id.arrowLeft);
@@ -75,7 +85,14 @@ public class PrecoActivity extends AppCompatActivity {
         recyclerViewVertical = (RecyclerView) findViewById(R.id.recyclerViewVertical);
         linearLayoutBusca = (LinearLayout) findViewById(R.id.linearLayoutBusca);
         groupOpcoesB = (RadioGroup) findViewById(R.id.groupOpcoesB);
+        imageFilter = (ImageView) findViewById(R.id.imageFilter);
         btFeito = (Button) findViewById(R.id.btFeito);
+        llFiltro = (LinearLayout) findViewById(R.id.llFiltros);
+        tvSecao = (TextView) findViewById(R.id.tvSecao);
+        tvSubSecao = (TextView) findViewById(R.id.tvSubSecao);
+        tvTipo = (TextView) findViewById(R.id.tvTipo);
+        tvSubTipo = (TextView) findViewById(R.id.tvSubTipo);
+        tvProduto = (TextView) findViewById(R.id.tvProduto);
 
         btListaHorizontal = (ImageView) findViewById(R.id.listaHorizontal);
         btListaVertical = (ImageView) findViewById(R.id.listaVertical);
@@ -85,10 +102,31 @@ public class PrecoActivity extends AppCompatActivity {
             lista.add(i);
         }
 
+        imageFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (llFiltro.getVisibility() != View.VISIBLE) {
+                    llFiltro.setVisibility(View.VISIBLE);
+                } else {
+                    llFiltro.setVisibility(View.GONE);
+                }
+
+            }
+        });
+
         btFeito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //aqui irei validar se pode enviar parcial e se ja respondeu tudo
+            }
+        });
+
+        tvSecao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                secaoFiltro(categoriaDao.listarSecao());
             }
         });
 
@@ -196,7 +234,7 @@ public class PrecoActivity extends AppCompatActivity {
                     @Override
                     public void onPreco(String preco) {
                         precoColetado[0] = preco;
-                        itemColeta.setPreco(new BigDecimal(preco));
+                        //itemColeta.setPreco(new BigDecimal(preco));
                     }
                 });
             }
@@ -364,5 +402,123 @@ public class PrecoActivity extends AppCompatActivity {
             itemColeta.setPreco(new BigDecimal(0));
         }
         itemColeta.setTipo(opcao);
+    }
+
+    private void secaoFiltro(ArrayList<Categoria> lista) {
+
+        spinnerSecao = new SpinnerDialog(PrecoActivity.this, lista, "Selecione a secao");
+        spinnerSecao.showSpinerDialog();
+        spinnerSecao.bindOnSpinerListener(new OnSpinerItemClick() {
+            @Override
+            public void onClick(Object o) {
+                final Categoria c = (Categoria) o;
+                tvSecao.setText(c.getGenericText());
+                defultCampos(1);
+                tvSubSecao.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        subSecaoFiltro(categoriaDao.listarSubSecao(c.getCod1()));
+                    }
+                });
+
+            }
+        });
+    }
+
+    private void subSecaoFiltro(ArrayList<Categoria> lista) {
+
+        spinnerSubSecao = new SpinnerDialog(PrecoActivity.this, lista, "Selecione a SubSeção");
+        spinnerSubSecao.showSpinerDialog();
+        spinnerSubSecao.bindOnSpinerListener(new OnSpinerItemClick() {
+            @Override
+            public void onClick(Object o) {
+                final Categoria c = (Categoria) o;
+
+                tvSubSecao.setText(c.getGenericText());
+                defultCampos(2);
+                tvTipo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        tipoFiltro(categoriaDao.listarTipo(c.getCod2()));
+                    }
+                });
+            }
+        });
+    }
+
+    private void tipoFiltro(ArrayList<Categoria> lista) {
+        spinnerTipo = new SpinnerDialog(PrecoActivity.this, lista, "Selecione o Tipo");
+        spinnerTipo.showSpinerDialog();
+        spinnerTipo.bindOnSpinerListener(new OnSpinerItemClick() {
+            @Override
+            public void onClick(Object o) {
+                final Categoria c = (Categoria) o;
+                tvTipo.setText(c.getGenericText());
+                defultCampos(3);
+                tvSubTipo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        subTipoFiltro(categoriaDao.listarSubTipo(c.getCod3()));
+                    }
+                });
+
+            }
+        });
+    }
+
+
+    private void subTipoFiltro(ArrayList<Categoria> lista) {
+
+        spinnerSubTipo = new SpinnerDialog(PrecoActivity.this, lista, "Selecione o SubTipo");
+        spinnerSubTipo.showSpinerDialog();
+        spinnerSubTipo.bindOnSpinerListener(new OnSpinerItemClick() {
+            @Override
+            public void onClick(Object o) {
+                final Categoria c = (Categoria) o;
+                tvSubTipo.setText(c.getGenericText());
+                defultCampos(4);
+                tvProduto.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        produtoFiltro(categoriaDao.listarProduto(c.getCod4()));
+                    }
+                });
+            }
+        });
+
+    }
+
+    private void produtoFiltro(ArrayList<Categoria> lista) {
+
+        spinnerProduto = new SpinnerDialog(PrecoActivity.this, lista, "Selecione o Produto");
+        spinnerProduto.showSpinerDialog();
+        spinnerProduto.bindOnSpinerListener(new OnSpinerItemClick() {
+            @Override
+            public void onClick(Object o) {
+                Categoria c = (Categoria) o;
+                tvProduto.setText(c.getGenericText());
+
+            }
+        });
+    }
+
+
+    private void defultCampos(int tipo) {
+
+        if (tipo == 1) {
+            tvSubSecao.setText("SubSeção");
+            tvTipo.setText("Tipo");
+            tvSubTipo.setText("SubTipo");
+            tvProduto.setText("Produto");
+        } else if (tipo == 2) {
+            tvTipo.setText("Tipo");
+            tvSubTipo.setText("SubTipo");
+            tvProduto.setText("Produto");
+        } else if (tipo == 3) {
+            tvSubTipo.setText("SubTipo");
+            tvProduto.setText("Produto");
+        } else if (tipo == 4) {
+            tvProduto.setText("Produto");
+        }
     }
 }

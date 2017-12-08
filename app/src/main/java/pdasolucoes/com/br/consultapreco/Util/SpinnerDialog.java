@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import pdasolucoes.com.br.consultapreco.Interfaces.OnSpinerItemClick;
@@ -21,7 +23,7 @@ import pdasolucoes.com.br.consultapreco.R;
 
 
 public class SpinnerDialog {
-    ArrayList<String> items;
+    ArrayList<?> items;
     Activity context;
     String dTitle;
     OnSpinerItemClick onSpinerItemClick;
@@ -29,13 +31,13 @@ public class SpinnerDialog {
     int pos;
     int style;
 
-    public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle) {
+    public SpinnerDialog(Activity activity, ArrayList<?> items, String dialogTitle) {
         this.items = items;
         this.context = activity;
         this.dTitle = dialogTitle;
     }
 
-    public SpinnerDialog(Activity activity, ArrayList<String> items, String dialogTitle, int style) {
+    public SpinnerDialog(Activity activity, ArrayList<?> items, String dialogTitle, int style) {
         this.items = items;
         this.context = activity;
         this.dTitle = dialogTitle;
@@ -75,7 +77,7 @@ public class SpinnerDialog {
         }
 
 
-        final ArrayAdapter adapter = new ArrayAdapter(this.context, R.layout.adapter_item_spinner_dialog, this.items);
+        final ArrayAdapter<Object> adapter = new ArrayAdapter(this.context, R.layout.adapter_item_spinner_dialog, this.items);
         listView.setAdapter(adapter);
         adb.setView(v);
         this.alertDialog = adb.create();
@@ -84,14 +86,15 @@ public class SpinnerDialog {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 TextView t = (TextView) view.findViewById(R.id.text1);
+                Object object = adapterView.getItemAtPosition(i);
 
                 for (int j = 0; j < SpinnerDialog.this.items.size(); ++j) {
-                    if (t.getText().toString().equalsIgnoreCase(((String) items.get(j)).toString())) {
+                    if (t.getText().toString().equalsIgnoreCase((items.get(j).toString()))) {
                         SpinnerDialog.this.pos = j;
                     }
                 }
 
-                onSpinerItemClick.onClick(t.getText().toString(), pos);
+                onSpinerItemClick.onClick(object);
                 SpinnerDialog.this.alertDialog.dismiss();
             }
         });

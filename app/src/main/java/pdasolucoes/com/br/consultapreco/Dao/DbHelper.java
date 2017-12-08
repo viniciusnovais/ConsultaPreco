@@ -15,7 +15,7 @@ import java.util.List;
 
 public class DbHelper extends SQLiteOpenHelper {
     private static final String BANCO_DADOS = "ConsultaPreco";
-    private static final int VERSAO = 1;
+    private static final int VERSAO = 2;
 
 
     public DbHelper(Context context) {
@@ -32,6 +32,9 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS concorrente(id INTEGER, nome TEXT)");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS produto(codProduto INTEGER PRIMARY KEY, ean TEXT, sku TEXT, nome TEXT, marca TEXT, precoConcorrente REAL, ruptura TEXT, oferta TEXT, unidMedida TEXT)");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS categoria(cod1 INTEGER, nivel1 TEXT, cod2 INTEGER, nivel2 TEXT, cod3 INTEGER, nivel3 TEXT, cod4 INTEGER, nivel4 TEXT, cod5 INTEGER, nivel5 TEXT)");
+
     }
 
     @Override

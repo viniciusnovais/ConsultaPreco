@@ -80,7 +80,7 @@ public class AgendaActivity extends AppCompatActivity {
 
             agendaDao.incluir(lista);
 
-            return agendaDao.listar(getIntent().getExtras().getString("praca"));
+            return agendaDao.listar();
         }
 
         @Override

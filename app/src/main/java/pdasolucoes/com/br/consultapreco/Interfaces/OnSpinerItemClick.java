@@ -6,5 +6,5 @@ package pdasolucoes.com.br.consultapreco.Interfaces;
 
 public interface OnSpinerItemClick {
 
-    void onClick(String var1, int var2);
+    void onClick(Object o);
 }

@@ -49,4 +49,9 @@
     <string name="descricao">Descrição</string>
     <string name="op">Opções</string>
     <string name="fifo">Fifo</string>
+    <string name="secao">Seção</string>
+    <string name="sub_secao">SubSeção</string>
+    <string name="tipo">Tipo</string>
+    <string name="sub_tipo">SubTipo</string>
+    <string name="produto">Produto</string>
 </resources>

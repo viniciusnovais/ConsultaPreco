@@ -72,9 +72,9 @@ public class AgendaDao {
         getDatabase().delete("agenda", null, null);
     }
 
-    public List<Agenda> listar(String praca) {
+    public List<Agenda> listar() {
         List<Agenda> lista = new ArrayList<>();
-        Cursor cursor = getDatabase().rawQuery("SELECT * FROM agenda WHERE praca = ?", new String[]{praca});
+        Cursor cursor = getDatabase().rawQuery("SELECT * FROM agenda", null);
 
         try {
             while (cursor.moveToNext()) {
