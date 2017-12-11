@@ -12,7 +12,7 @@ public class Agenda {
     private String data;
     private int idLoja;
     private String nomeLoja;
-    private String praca;
+    private int lista;
     private int status;
     private int idUsuario;
 
@@ -72,6 +72,14 @@ public class Agenda {
         this.nomeConcorrente = nomeConcorrente;
     }
 
+    public int getLista() {
+        return lista;
+    }
+
+    public void setLista(int lista) {
+        this.lista = lista;
+    }
+
     public String getData() {
         return data;
     }
@@ -80,13 +88,4 @@ public class Agenda {
         this.data = data;
     }
 
-
-
-    public String getPraca() {
-        return praca;
-    }
-
-    public void setPraca(String praca) {
-        this.praca = praca;
-    }
 }

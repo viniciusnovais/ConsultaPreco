@@ -54,7 +54,7 @@ public class AgendaService {
                     a.setData(item.getPropertyAsString("data"));
                     a.setIdLoja(Integer.parseInt(item.getPropertyAsString("idLoja")));
                     a.setNomeLoja(item.getPropertyAsString("nomeLoja"));
-                    a.setPraca(item.getPropertyAsString("praca"));
+                    a.setLista(Integer.parseInt(item.getPropertyAsString("lista")));
                     a.setStatus(Integer.parseInt(item.getPropertyAsString("status")));
                     a.setIdUsuario(Integer.parseInt(item.getPropertyAsString("idUsuario")));
 

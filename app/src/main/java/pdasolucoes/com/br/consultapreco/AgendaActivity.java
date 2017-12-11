@@ -21,8 +21,11 @@ import java.util.List;
 
 import pdasolucoes.com.br.consultapreco.Adapter.ListaAgenda;
 import pdasolucoes.com.br.consultapreco.Dao.AgendaDao;
+import pdasolucoes.com.br.consultapreco.Dao.PesquisaProdutoDao;
 import pdasolucoes.com.br.consultapreco.Model.Agenda;
+import pdasolucoes.com.br.consultapreco.Model.ProdutoPesquisa;
 import pdasolucoes.com.br.consultapreco.Services.AgendaService;
+import pdasolucoes.com.br.consultapreco.Services.ProdutoPesquisaService;
 
 /**
  * Created by PDA on 20/11/2017.
@@ -36,6 +39,7 @@ public class AgendaActivity extends AppCompatActivity {
     private AgendaDao agendaDao;
     private SharedPreferences preferences;
     private AlertDialog dialog;
+    private PesquisaProdutoDao pesquisaProdutoDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,6 +48,7 @@ public class AgendaActivity extends AppCompatActivity {
 
         preferences = getSharedPreferences(LoginActivity.PREFERENCES, MODE_PRIVATE);
         agendaDao = new AgendaDao(this);
+        pesquisaProdutoDao = new PesquisaProdutoDao(this);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         lista = new ArrayList<>();
@@ -110,6 +115,8 @@ public class AgendaActivity extends AppCompatActivity {
 
                                 Toast.makeText(AgendaActivity.this, "Finalize o formulário em progresso", Toast.LENGTH_SHORT).show();
                             }
+
+                            new AsyncListaProduto().execute(a.getId());
                         }
                     });
                 } else {
@@ -117,6 +124,40 @@ public class AgendaActivity extends AppCompatActivity {
                 }
             }
 
+        }
+    }
+
+    private class AsyncListaProduto extends AsyncTask {
+        ProgressDialog progressDialog;
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(AgendaActivity.this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setMessage(getString(R.string.carregando));
+            progressDialog.setCanceledOnTouchOutside(true);
+            progressDialog.show();
+        }
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+
+            List<ProdutoPesquisa> lista = ProdutoPesquisaService.listarProdutosPesquisa(Integer.parseInt(params[0].toString()));
+            return lista;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+
+                pesquisaProdutoDao.incluir((List<ProdutoPesquisa>) o);
+
+            }
         }
     }
 
@@ -157,8 +198,6 @@ public class AgendaActivity extends AppCompatActivity {
         tvUsuario = (TextView) v.findViewById(R.id.tvUsuario);
         btCancelar = (Button) v.findViewById(R.id.btCancel);
         btFeito = (Button) v.findViewById(R.id.btDone);
-
-        tvPraca.setText(a.getPraca());
 
         tvConcorrente.setText(a.getNomeConcorrente());
 

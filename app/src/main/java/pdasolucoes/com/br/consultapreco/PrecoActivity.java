@@ -35,9 +35,11 @@ import java.util.List;
 import pdasolucoes.com.br.consultapreco.Adapter.ListaPrecoHorizontal;
 import pdasolucoes.com.br.consultapreco.Adapter.ListaPrecoVertical;
 import pdasolucoes.com.br.consultapreco.Dao.CategoriaDao;
+import pdasolucoes.com.br.consultapreco.Dao.PesquisaProdutoDao;
 import pdasolucoes.com.br.consultapreco.Interfaces.OnSpinerItemClick;
 import pdasolucoes.com.br.consultapreco.Model.Categoria;
 import pdasolucoes.com.br.consultapreco.Model.ItemColeta;
+import pdasolucoes.com.br.consultapreco.Model.ProdutoPesquisa;
 import pdasolucoes.com.br.consultapreco.Util.CustomLinearLayoutManager;
 import pdasolucoes.com.br.consultapreco.Util.CustomRecyclerView;
 import pdasolucoes.com.br.consultapreco.Util.FuncoesUtil;
@@ -51,7 +53,7 @@ import pdasolucoes.com.br.consultapreco.Util.SpinnerDialog;
 public class PrecoActivity extends AppCompatActivity {
 
     private CustomRecyclerView customRecyclerView;
-    private List<Integer> lista = new ArrayList<>();
+    private List<ProdutoPesquisa> lista = new ArrayList<>();
     private AlertDialog dialogOpcao;
     private ListaPrecoHorizontal adapterHorizontal;
     private ListaPrecoVertical adapterVertical;
@@ -65,10 +67,10 @@ public class PrecoActivity extends AppCompatActivity {
     private int position = 0;
     private File file;
     private CategoriaDao categoriaDao;
+    private PesquisaProdutoDao pesquisaProdutoDao;
     private LinearLayout llFiltro;
-    private TextView tvSecao, tvSubSecao, tvTipo, tvSubTipo, tvProduto;
+    private TextView tvSecao, tvSubSecao, tvTipo, tvSubTipo;
     private ItemColeta itemColeta = new ItemColeta();
-    private List<ItemColeta> listaColeta = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,6 +78,7 @@ public class PrecoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_preco);
 
         categoriaDao = new CategoriaDao(this);
+        pesquisaProdutoDao = new PesquisaProdutoDao(this);
 
         arrowRight = (ImageView) findViewById(R.id.arrowRight);
         arrowLeft = (ImageView) findViewById(R.id.arrowLeft);
@@ -92,15 +95,14 @@ public class PrecoActivity extends AppCompatActivity {
         tvSubSecao = (TextView) findViewById(R.id.tvSubSecao);
         tvTipo = (TextView) findViewById(R.id.tvTipo);
         tvSubTipo = (TextView) findViewById(R.id.tvSubTipo);
-        tvProduto = (TextView) findViewById(R.id.tvProduto);
+        //tvProduto = (TextView) findViewById(R.id.tvProduto);
 
         btListaHorizontal = (ImageView) findViewById(R.id.listaHorizontal);
         btListaVertical = (ImageView) findViewById(R.id.listaVertical);
         btBeep = (ImageView) findViewById(R.id.beep);
 
-        for (int i = 0; i < 20; i++) {
-            lista.add(i);
-        }
+        //populando lista de pesquisa de produtos
+        lista = pesquisaProdutoDao.listarPesquisa();
 
         imageFilter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -476,30 +478,9 @@ public class PrecoActivity extends AppCompatActivity {
             public void onClick(Object o) {
                 final Categoria c = (Categoria) o;
                 tvSubTipo.setText(c.getGenericText());
-                defultCampos(4);
-                tvProduto.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        produtoFiltro(categoriaDao.listarProduto(c.getCod4()));
-                    }
-                });
             }
         });
 
-    }
-
-    private void produtoFiltro(ArrayList<Categoria> lista) {
-
-        spinnerProduto = new SpinnerDialog(PrecoActivity.this, lista, "Selecione o Produto");
-        spinnerProduto.showSpinerDialog();
-        spinnerProduto.bindOnSpinerListener(new OnSpinerItemClick() {
-            @Override
-            public void onClick(Object o) {
-                Categoria c = (Categoria) o;
-                tvProduto.setText(c.getGenericText());
-
-            }
-        });
     }
 
 
@@ -509,16 +490,11 @@ public class PrecoActivity extends AppCompatActivity {
             tvSubSecao.setText("SubSeção");
             tvTipo.setText("Tipo");
             tvSubTipo.setText("SubTipo");
-            tvProduto.setText("Produto");
         } else if (tipo == 2) {
             tvTipo.setText("Tipo");
             tvSubTipo.setText("SubTipo");
-            tvProduto.setText("Produto");
         } else if (tipo == 3) {
             tvSubTipo.setText("SubTipo");
-            tvProduto.setText("Produto");
-        } else if (tipo == 4) {
-            tvProduto.setText("Produto");
         }
     }
 }

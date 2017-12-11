@@ -54,7 +54,7 @@ public class AgendaDao {
                 values.put("idLoja", agenda.getIdLoja());
                 values.put("nomeLoja", agenda.getNomeLoja());
                 values.put("data", agenda.getData());
-                values.put("praca", agenda.getPraca());
+                values.put("lista", agenda.getLista());
                 values.put("status", agenda.getStatus());
                 values.put("idUsuario", agenda.getIdUsuario());
 
@@ -86,7 +86,7 @@ public class AgendaDao {
                 a.setData(cursor.getString(cursor.getColumnIndex("data")));
                 a.setIdLoja(cursor.getInt(cursor.getColumnIndex("idLoja")));
                 a.setNomeLoja(cursor.getString(cursor.getColumnIndex("nomeLoja")));
-                a.setPraca(cursor.getString(cursor.getColumnIndex("praca")));
+                a.setLista(cursor.getInt(cursor.getColumnIndex("lista")));
                 a.setStatus(cursor.getInt(cursor.getColumnIndex("status")));
                 a.setIdUsuario(cursor.getInt(cursor.getColumnIndex("idUsuario")));
 

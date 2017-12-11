@@ -67,7 +67,6 @@ public class ListaAgenda extends RecyclerView.Adapter<ListaAgenda.MyViewHolder> 
 
         holder.tvLoja.setText(a.getNomeLoja());
 
-        holder.tvPraca.setText(a.getPraca());
     }
 
     @Override

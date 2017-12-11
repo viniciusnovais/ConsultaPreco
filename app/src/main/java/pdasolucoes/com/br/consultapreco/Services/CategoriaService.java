@@ -27,7 +27,7 @@ public class CategoriaService {
         SoapObject response;
         try {
 
-            SoapObject request = new SoapObject(ConfigService.URL, METHOD_NAME);
+            SoapObject request = new SoapObject(ConfigService.NAMESPACE, METHOD_NAME);
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
             envelope.implicitTypes = true;

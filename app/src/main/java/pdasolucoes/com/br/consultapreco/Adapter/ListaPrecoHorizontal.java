@@ -15,10 +15,14 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.IllegalFormatCodePointException;
 import java.util.List;
 
+import pdasolucoes.com.br.consultapreco.Model.ProdutoPesquisa;
 import pdasolucoes.com.br.consultapreco.R;
 import pdasolucoes.com.br.consultapreco.Util.FuncoesUtil;
 
@@ -29,7 +33,7 @@ import pdasolucoes.com.br.consultapreco.Util.FuncoesUtil;
 public class ListaPrecoHorizontal extends RecyclerView.Adapter<ListaPrecoHorizontal.MyViewHolder> {
 
     private Context context;
-    private List<Integer> lista;
+    private List<ProdutoPesquisa> lista;
     private LayoutInflater layoutInflater;
     private OpcaoClick opcaoClick;
     private ItemPreco itemPreco;
@@ -50,7 +54,7 @@ public class ListaPrecoHorizontal extends RecyclerView.Adapter<ListaPrecoHorizon
         this.opcaoClick = opcaoClick;
     }
 
-    public ListaPrecoHorizontal(Context context, List<Integer> lista) {
+    public ListaPrecoHorizontal(Context context, List<ProdutoPesquisa> lista) {
         this.context = context;
         this.lista = lista;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -68,6 +72,12 @@ public class ListaPrecoHorizontal extends RecyclerView.Adapter<ListaPrecoHorizon
 
     @Override
     public void onBindViewHolder(final ListaPrecoHorizontal.MyViewHolder holder, int position) {
+
+        ProdutoPesquisa p = lista.get(position);
+
+        holder.tvDesc.setText(p.getFamilia());
+
+        holder.tvMarca.setText(p.getMarca());
 
         holder.linearLayoutDetalhe.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +129,7 @@ public class ListaPrecoHorizontal extends RecyclerView.Adapter<ListaPrecoHorizon
 
         public RadioGroup radioGroup;
         public LinearLayout linearLayoutDetalhe, llItem;
+        public TextView tvDesc, tvMarca;
         public EditText editPreco;
 
         public MyViewHolder(View itemView) {
@@ -127,6 +138,8 @@ public class ListaPrecoHorizontal extends RecyclerView.Adapter<ListaPrecoHorizon
             radioGroup = (RadioGroup) itemView.findViewById(R.id.groupOpcoesH);
             linearLayoutDetalhe = (LinearLayout) itemView.findViewById(R.id.linearLayoutDetalhe);
             llItem = (LinearLayout) itemView.findViewById(R.id.llItem);
+            tvDesc = (TextView) itemView.findViewById(R.id.tvDesc);
+            tvMarca = (TextView) itemView.findViewById(R.id.tvMarca);
             editPreco = (EditText) itemView.findViewById(R.id.editPreco);
         }
     }
