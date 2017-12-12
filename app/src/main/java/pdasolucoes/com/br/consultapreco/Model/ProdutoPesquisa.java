@@ -1,5 +1,7 @@
 package pdasolucoes.com.br.consultapreco.Model;
 
+import java.math.BigDecimal;
+
 /**
  * Created by PDA on 11/12/2017.
  */
@@ -21,6 +23,24 @@ public class ProdutoPesquisa {
     private int cod4;
     private String nivel4;
 
+    private String preco;
+    private String precoDigitado;
+
+    public String getPrecoDigitado() {
+        return precoDigitado;
+    }
+
+    public void setPrecoDigitado(String precoDigitado) {
+        this.precoDigitado = precoDigitado;
+    }
+
+    public String getPreco() {
+        return preco;
+    }
+
+    public void setPreco(String preco) {
+        this.preco = preco;
+    }
 
     public int getSeqFamilia() {
         return seqFamilia;

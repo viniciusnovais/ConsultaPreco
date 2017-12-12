@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.view.ViewAnimationUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +58,7 @@ public class AgendaDao {
                 values.put("lista", agenda.getLista());
                 values.put("status", agenda.getStatus());
                 values.put("idUsuario", agenda.getIdUsuario());
+                values.put("dataHoraInicio", agenda.getDataHoraInicio());
 
                 getDatabase().insert("agenda", null, values);
             }
@@ -84,6 +86,7 @@ public class AgendaDao {
                 a.setIdConcorrente(cursor.getInt(cursor.getColumnIndex("idConcorrente")));
                 a.setNomeConcorrente(cursor.getString(cursor.getColumnIndex("nomeConcorrente")));
                 a.setData(cursor.getString(cursor.getColumnIndex("data")));
+                a.setDataHoraInicio(cursor.getString(cursor.getColumnIndex("dataHoraInicio")));
                 a.setIdLoja(cursor.getInt(cursor.getColumnIndex("idLoja")));
                 a.setNomeLoja(cursor.getString(cursor.getColumnIndex("nomeLoja")));
                 a.setLista(cursor.getInt(cursor.getColumnIndex("lista")));
@@ -99,6 +102,14 @@ public class AgendaDao {
         }
 
         return lista;
+    }
+
+    public void AlterarDataHoraInicio(Agenda agenda) {
+        ContentValues values = new ContentValues();
+
+        values.put("dataHoraInicio", agenda.getDataHoraInicio());
+
+        getDatabase().update("agenda", values, "id = " + agenda.getId(), null);
     }
 
 

@@ -93,20 +93,24 @@ public class LoginActivity extends AppCompatActivity {
 
             if (progressDialog.isShowing()) {
                 progressDialog.dismiss();
-                if (usuario.getMsgErro().equals("")) {
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.putInt("idUsuario", usuario.getId());
-                    editor.putString("login", login);
-                    editor.putString("nome", usuario.getNome());
-                    editor.putString("senha", senha);
-                    editor.commit();
+                try {
+                    if (usuario.getMsgErro().equals("")) {
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putInt("idUsuario", usuario.getId());
+                        editor.putString("login", login);
+                        editor.putString("nome", usuario.getNome());
+                        editor.putString("senha", senha);
+                        editor.commit();
 
-                    AsyncGetCateg task = new AsyncGetCateg();
-                    task.execute();
+                        AsyncGetCateg task = new AsyncGetCateg();
+                        task.execute();
 
 
-                } else {
-                    Toast.makeText(LoginActivity.this, usuario.getMsgErro(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(LoginActivity.this, usuario.getMsgErro(), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }

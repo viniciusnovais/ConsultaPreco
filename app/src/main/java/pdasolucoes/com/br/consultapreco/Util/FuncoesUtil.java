@@ -121,6 +121,9 @@ public class FuncoesUtil {
         });
 
 
+
+
+
         dialogImage = builder.create();
         dialogImage.show();
     }

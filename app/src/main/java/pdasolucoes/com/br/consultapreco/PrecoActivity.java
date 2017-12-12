@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -35,6 +37,7 @@ import java.util.List;
 import pdasolucoes.com.br.consultapreco.Adapter.ListaPrecoHorizontal;
 import pdasolucoes.com.br.consultapreco.Adapter.ListaPrecoVertical;
 import pdasolucoes.com.br.consultapreco.Dao.CategoriaDao;
+import pdasolucoes.com.br.consultapreco.Dao.ItemColetaDao;
 import pdasolucoes.com.br.consultapreco.Dao.PesquisaProdutoDao;
 import pdasolucoes.com.br.consultapreco.Interfaces.OnSpinerItemClick;
 import pdasolucoes.com.br.consultapreco.Model.Categoria;
@@ -53,8 +56,8 @@ import pdasolucoes.com.br.consultapreco.Util.SpinnerDialog;
 public class PrecoActivity extends AppCompatActivity {
 
     private CustomRecyclerView customRecyclerView;
-    private List<ProdutoPesquisa> lista = new ArrayList<>();
     private AlertDialog dialogOpcao;
+    private List<ProdutoPesquisa> lista;
     private ListaPrecoHorizontal adapterHorizontal;
     private ListaPrecoVertical adapterVertical;
     private LinearLayout linearLayoutHorizontal, linearLayoutVertical, linearLayoutBusca, linearLayoutDetalhe;
@@ -64,13 +67,15 @@ public class PrecoActivity extends AppCompatActivity {
     private SpinnerDialog spinnerSecao, spinnerSubSecao, spinnerTipo, spinnerSubTipo, spinnerProduto;
     private Button btFeito;
     private ImageView btListaHorizontal, btListaVertical, btBeep, imageFilter;
-    private int position = 0;
+    private int position = 0, cod1 = -1, cod2 = -1, cod3 = -1, cod4 = -1;
     private File file;
     private CategoriaDao categoriaDao;
     private PesquisaProdutoDao pesquisaProdutoDao;
-    private LinearLayout llFiltro;
+    private LinearLayout llFiltro, linearLayoutRespostaBusca;
     private TextView tvSecao, tvSubSecao, tvTipo, tvSubTipo;
-    private ItemColeta itemColeta = new ItemColeta();
+    private EditText editCodigo;
+    private ItemColeta itemColeta;
+    private ItemColetaDao itemColetaDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +84,10 @@ public class PrecoActivity extends AppCompatActivity {
 
         categoriaDao = new CategoriaDao(this);
         pesquisaProdutoDao = new PesquisaProdutoDao(this);
+        itemColetaDao = new ItemColetaDao(this);
+        itemColeta = new ItemColeta();
+        //pegando o id da agenda
+        itemColeta.setAgendaId(getIntent().getIntExtra("agendaId", 0));
 
         arrowRight = (ImageView) findViewById(R.id.arrowRight);
         arrowLeft = (ImageView) findViewById(R.id.arrowLeft);
@@ -95,14 +104,17 @@ public class PrecoActivity extends AppCompatActivity {
         tvSubSecao = (TextView) findViewById(R.id.tvSubSecao);
         tvTipo = (TextView) findViewById(R.id.tvTipo);
         tvSubTipo = (TextView) findViewById(R.id.tvSubTipo);
-        //tvProduto = (TextView) findViewById(R.id.tvProduto);
+
+
+        //Busca por Produto
+        linearLayoutRespostaBusca = (LinearLayout) findViewById(R.id.linearLayoutRespostaBusca);
+        editCodigo = (EditText) findViewById(R.id.editCodigo);
 
         btListaHorizontal = (ImageView) findViewById(R.id.listaHorizontal);
         btListaVertical = (ImageView) findViewById(R.id.listaVertical);
         btBeep = (ImageView) findViewById(R.id.beep);
 
-        //populando lista de pesquisa de produtos
-        lista = pesquisaProdutoDao.listarPesquisa();
+        atualizaListas(pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4));
 
         imageFilter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,67 +152,10 @@ public class PrecoActivity extends AppCompatActivity {
                 linearLayoutVertical.setVisibility(View.GONE);
                 linearLayoutBusca.setVisibility(View.GONE);
 
-                CustomLinearLayoutManager llm = new CustomLinearLayoutManager(PrecoActivity.this, LinearLayoutManager.HORIZONTAL, false);
-                customRecyclerView.setLayoutManager(llm);
+                editCodigo.setText("");
+                linearLayoutBusca.setVisibility(View.INVISIBLE);
 
-                adapterHorizontal = new ListaPrecoHorizontal(PrecoActivity.this, lista);
-                customRecyclerView.setAdapter(adapterHorizontal);
-
-                adapterHorizontal.ItemPrecoListener(new ListaPrecoHorizontal.ItemPreco() {
-                    @Override
-                    public void onPreco(String preco) {
-                        itemColeta.setPreco(new BigDecimal(preco));
-                    }
-                });
-
-                adapterHorizontal.OpcaoClickListener(new ListaPrecoHorizontal.OpcaoClick() {
-                    @Override
-                    public void onClick(String opcao) {
-                        acaoAposSelecao(opcao);
-                    }
-                });
-
-                arrowRight.setVisibility(View.VISIBLE);
-                arrowRight.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        customRecyclerView.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                arrowLeft.setVisibility(View.VISIBLE);
-                                position++;
-                                customRecyclerView.scrollToPosition(position);
-
-
-                                if (position == customRecyclerView.getAdapter().getItemCount() - 1) {
-                                    arrowRight.setVisibility(View.INVISIBLE);
-                                }
-                            }
-                        }, 100);
-                    }
-                });
-
-
-                arrowLeft.setVisibility(View.INVISIBLE);
-                arrowLeft.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        customRecyclerView.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                arrowRight.setVisibility(View.VISIBLE);
-
-                                position--;
-                                customRecyclerView.scrollToPosition(position);
-
-                                if (position <= 0)
-                                    arrowLeft.setVisibility(View.INVISIBLE);
-                            }
-                        }, 100);
-                    }
-                });
+                atualizaListas(pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4));
             }
         });
 
@@ -209,11 +164,13 @@ public class PrecoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final String[] precoColetado = new String[1];
 
                 linearLayoutHorizontal.setVisibility(View.GONE);
                 linearLayoutVertical.setVisibility(View.VISIBLE);
                 linearLayoutBusca.setVisibility(View.GONE);
+
+                editCodigo.setText("");
+                linearLayoutBusca.setVisibility(View.INVISIBLE);
 
                 arrowRight.setVisibility(View.INVISIBLE);
                 arrowLeft.setVisibility(View.INVISIBLE);
@@ -221,24 +178,8 @@ public class PrecoActivity extends AppCompatActivity {
                 CustomLinearLayoutManager llm = new CustomLinearLayoutManager(PrecoActivity.this, LinearLayoutManager.VERTICAL, false);
                 recyclerViewVertical.setLayoutManager(llm);
 
-                adapterVertical = new ListaPrecoVertical(PrecoActivity.this, lista);
-                recyclerViewVertical.setAdapter(adapterVertical);
+                atualizaListas(pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4));
 
-                adapterVertical.ItemClickListener(new ListaPrecoVertical.ItemClick() {
-                    @Override
-                    public void onClick(int position) {
-
-                        popupOpcoes(precoColetado[0]);
-                    }
-                });
-
-                adapterVertical.ItemPrecoListener(new ListaPrecoVertical.ItemPreco() {
-                    @Override
-                    public void onPreco(String preco) {
-                        precoColetado[0] = preco;
-                        //itemColeta.setPreco(new BigDecimal(preco));
-                    }
-                });
             }
         });
 
@@ -250,22 +191,42 @@ public class PrecoActivity extends AppCompatActivity {
                 linearLayoutBusca.setVisibility(View.VISIBLE);
                 linearLayoutDetalhe = (LinearLayout) findViewById(R.id.linearLayoutDetalhe);
 
-                linearLayoutDetalhe.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        FuncoesUtil.popupEans(PrecoActivity.this);
-                    }
-                });
+//                linearLayoutDetalhe.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        FuncoesUtil.popupEans(PrecoActivity.this);
+//                    }
+//                });
 
-                final EditText editCodigo = (EditText) findViewById(R.id.editCodigo);
+                final ProdutoPesquisa[] p = new ProdutoPesquisa[1];
                 final EditText editPreco = (EditText) findViewById(R.id.editPrecob);
-                final LinearLayout linearLayoutRespostaBusca = (LinearLayout) findViewById(R.id.linearLayoutRespostaBusca);
+                final TextView tvDescricao = (TextView) findViewById(R.id.tvDescb);
+                final TextView tvMarca = (TextView) findViewById(R.id.tvMarcab);
 
                 groupOpcoesB.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
 
-                        acaoAposSelecao(FuncoesUtil.verificaRadioGroup(group, checkedId));
+                        acaoAposSelecao(FuncoesUtil.verificaRadioGroup(group, checkedId), p[0]);
+                    }
+                });
+
+                editPreco.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        if (!s.toString().equals("")) {
+                            incluiOuAlteraPreco(s.toString(), p[0]);
+                        }
                     }
                 });
 
@@ -275,8 +236,17 @@ public class PrecoActivity extends AppCompatActivity {
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
                             if ((event.getRawX() <= editCodigo.getCompoundDrawables()[0].getBounds().width())) {
                                 if (!editCodigo.getText().toString().equals("")) {
-                                    editCodigo.setText("");
-                                    linearLayoutRespostaBusca.setVisibility(View.VISIBLE);
+                                    p[0] = pesquisaProdutoDao.buscaProdEan(editCodigo.getText().toString());
+                                    if (p[0] != null) {
+                                        tvMarca.setText(p[0].getMarca());
+                                        tvDescricao.setText(p[0].getFamilia());
+                                        if (p[0].getPreco() != null) {
+                                            editPreco.setText(p[0].getPreco());
+                                        }
+                                        linearLayoutRespostaBusca.setVisibility(View.VISIBLE);
+                                    } else {
+                                        Toast.makeText(PrecoActivity.this, getString(R.string.produto_n_encontrado), Toast.LENGTH_SHORT).show();
+                                    }
                                 } else {
                                     Toast.makeText(PrecoActivity.this, getString(R.string.campos_obrigatorio), Toast.LENGTH_SHORT).show();
                                 }
@@ -297,7 +267,17 @@ public class PrecoActivity extends AppCompatActivity {
                             if (keyCode == KeyEvent.KEYCODE_ENTER) {
                                 if (!editCodigo.getText().toString().equals("")) {
                                     //passar o texto o código para a busca no banco
-                                    linearLayoutRespostaBusca.setVisibility(View.VISIBLE);
+                                    p[0] = pesquisaProdutoDao.buscaProdEan(editCodigo.getText().toString());
+                                    if (p[0] != null) {
+                                        tvMarca.setText(p[0].getMarca());
+                                        tvDescricao.setText(p[0].getFamilia());
+                                        if (p[0].getPreco() != null) {
+                                            editPreco.setText(p[0].getPreco());
+                                        }
+                                        linearLayoutRespostaBusca.setVisibility(View.VISIBLE);
+                                    } else {
+                                        Toast.makeText(PrecoActivity.this, getString(R.string.produto_n_encontrado), Toast.LENGTH_SHORT).show();
+                                    }
 
                                 } else {
                                     Toast.makeText(PrecoActivity.this, getString(R.string.campos_obrigatorio), Toast.LENGTH_SHORT).show();
@@ -310,39 +290,23 @@ public class PrecoActivity extends AppCompatActivity {
                         return false;
                     }
                 });
-
-                btFeito.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (!editPreco.getText().toString().equals("")) {
-                            //pega o preço e salva
-                            editPreco.setText("");
-                            editCodigo.setText("");
-                        } else {
-                            Toast.makeText(PrecoActivity.this, getString(R.string.campos_obrigatorio), Toast.LENGTH_SHORT).show();
-                        }
-
-                        editCodigo.requestFocus();
-                    }
-                });
-
             }
         });
     }
 
     //aqui irei passar o produto selecionado como parametro
-    private void popupOpcoes(final String preco) {
+    private void popupOpcoes(final ProdutoPesquisa p) {
         View v = View.inflate(PrecoActivity.this, R.layout.popup_opcoes, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(PrecoActivity.this);
         builder.setView(v);
-
-        TextView tvDescricao;
-        ListView listViewEans;
+//
+//        TextView tvDescricao;
+//        ListView listViewEans;
         RadioGroup group;
         Button btFeito, btCancelar;
 
-        tvDescricao = (TextView) v.findViewById(R.id.tvDescricao);
-        listViewEans = (ListView) v.findViewById(R.id.listViewEans);
+//        tvDescricao = (TextView) v.findViewById(R.id.tvDescricao);
+//        listViewEans = (ListView) v.findViewById(R.id.listViewEans);
         group = (RadioGroup) v.findViewById(R.id.groupOpcoes);
         btFeito = (Button) v.findViewById(R.id.btFeito);
         btCancelar = (Button) v.findViewById(R.id.btCancelar);
@@ -351,7 +315,7 @@ public class PrecoActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
 
-                acaoAposSelecao(FuncoesUtil.verificaRadioGroup(group, checkedId));
+                acaoAposSelecao(FuncoesUtil.verificaRadioGroup(group, checkedId), p);
 
             }
         });
@@ -393,7 +357,7 @@ public class PrecoActivity extends AppCompatActivity {
     }
 
 
-    private void acaoAposSelecao(String opcao) {
+    private void acaoAposSelecao(String opcao, ProdutoPesquisa p) {
 
         if (opcao.equals("Oferta")) {
             //foto e preco
@@ -401,14 +365,17 @@ public class PrecoActivity extends AppCompatActivity {
             itemColeta.setCaminhoFoto(file.getAbsolutePath());
         } else if (opcao.equals("Ruptura")) {
             //não pega preco, só insere flag
-            itemColeta.setPreco(new BigDecimal(0));
+            itemColeta.setCaminhoFoto("");
+        } else if (opcao.equals("Fifo")) {
+            itemColeta.setCaminhoFoto("");
         }
         itemColeta.setTipo(opcao);
+        incluirAlteraTipoFoto(itemColeta, p);
     }
 
     private void secaoFiltro(ArrayList<Categoria> lista) {
 
-        spinnerSecao = new SpinnerDialog(PrecoActivity.this, lista, "Selecione a secao");
+        spinnerSecao = new SpinnerDialog(PrecoActivity.this, lista, "Selecione a Seção");
         spinnerSecao.showSpinerDialog();
         spinnerSecao.bindOnSpinerListener(new OnSpinerItemClick() {
             @Override
@@ -416,10 +383,13 @@ public class PrecoActivity extends AppCompatActivity {
                 final Categoria c = (Categoria) o;
                 tvSecao.setText(c.getGenericText());
                 defultCampos(1);
+                cod1 = c.getCod1();
+                atualizaListas(pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4));
                 tvSubSecao.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         subSecaoFiltro(categoriaDao.listarSubSecao(c.getCod1()));
+
                     }
                 });
 
@@ -438,10 +408,14 @@ public class PrecoActivity extends AppCompatActivity {
 
                 tvSubSecao.setText(c.getGenericText());
                 defultCampos(2);
+                cod2 = c.getCod2();
+                atualizaListas(pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4));
                 tvTipo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        cod2 = c.getCod2();
                         tipoFiltro(categoriaDao.listarTipo(c.getCod2()));
+                        atualizaListas(pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4));
                     }
                 });
             }
@@ -457,6 +431,8 @@ public class PrecoActivity extends AppCompatActivity {
                 final Categoria c = (Categoria) o;
                 tvTipo.setText(c.getGenericText());
                 defultCampos(3);
+                cod3 = c.getCod3();
+                atualizaListas(pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4));
                 tvSubTipo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -478,6 +454,8 @@ public class PrecoActivity extends AppCompatActivity {
             public void onClick(Object o) {
                 final Categoria c = (Categoria) o;
                 tvSubTipo.setText(c.getGenericText());
+                cod4 = c.getCod4();
+                atualizaListas(pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4));
             }
         });
 
@@ -488,13 +466,140 @@ public class PrecoActivity extends AppCompatActivity {
 
         if (tipo == 1) {
             tvSubSecao.setText("SubSeção");
+            cod2 = -1;
             tvTipo.setText("Tipo");
+            cod3 = -1;
             tvSubTipo.setText("SubTipo");
+            cod4 = -1;
         } else if (tipo == 2) {
             tvTipo.setText("Tipo");
+            cod3 = -1;
             tvSubTipo.setText("SubTipo");
+            cod4 = -1;
         } else if (tipo == 3) {
             tvSubTipo.setText("SubTipo");
+            cod4 = -1;
+        }
+    }
+
+
+    private void atualizaListas(List<ProdutoPesquisa> lista) {
+
+        CustomLinearLayoutManager llm = new CustomLinearLayoutManager(PrecoActivity.this, LinearLayoutManager.HORIZONTAL, false);
+        customRecyclerView.setLayoutManager(llm);
+
+        adapterHorizontal = new ListaPrecoHorizontal(PrecoActivity.this, lista);
+        customRecyclerView.setAdapter(adapterHorizontal);
+
+        adapterHorizontal.ItemPrecoListener(new ListaPrecoHorizontal.ItemPreco() {
+            @Override
+            public void onPreco(String preco, int position) {
+                incluiOuAlteraPreco(preco, pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4).get(position));
+            }
+        });
+
+        adapterHorizontal.OpcaoClickListener(new ListaPrecoHorizontal.OpcaoClick() {
+            @Override
+            public void onClick(String opcao, ProdutoPesquisa p) {
+                acaoAposSelecao(opcao, p);
+            }
+        });
+
+
+        arrowRight.setVisibility(View.VISIBLE);
+        if (position == customRecyclerView.getAdapter().getItemCount() - 1) {
+            arrowRight.setVisibility(View.INVISIBLE);
+        }
+        arrowRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                customRecyclerView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        arrowLeft.setVisibility(View.VISIBLE);
+                        position++;
+                        customRecyclerView.scrollToPosition(position);
+
+
+                        if (position == customRecyclerView.getAdapter().getItemCount() - 1) {
+                            arrowRight.setVisibility(View.INVISIBLE);
+                        }
+                    }
+                }, 100);
+            }
+        });
+
+
+        if (position <= 0) {
+            arrowLeft.setVisibility(View.INVISIBLE);
+        }
+        arrowLeft.setVisibility(View.INVISIBLE);
+        arrowLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                customRecyclerView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        arrowRight.setVisibility(View.VISIBLE);
+
+                        position--;
+                        customRecyclerView.scrollToPosition(position);
+
+                        if (position <= 0)
+                            arrowLeft.setVisibility(View.INVISIBLE);
+                    }
+                }, 100);
+            }
+        });
+
+        adapterVertical = new ListaPrecoVertical(PrecoActivity.this, lista);
+        recyclerViewVertical.setAdapter(adapterVertical);
+
+        adapterVertical.ItemPrecoListener(new ListaPrecoVertical.ItemPreco() {
+            @Override
+            public void onPreco(String preco, int position) {
+                incluiOuAlteraPreco(preco, pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4).get(position));
+            }
+        });
+
+        adapterVertical.ItemClickListener(new ListaPrecoVertical.ItemClick() {
+            @Override
+            public void onClick(ProdutoPesquisa p) {
+
+                popupOpcoes(p);
+            }
+        });
+
+    }
+
+    private void incluiOuAlteraPreco(String preco, ProdutoPesquisa p) {
+        preco = preco.replaceAll("[,]", ".");
+        itemColeta.setSeqFamilia(p.getSeqFamilia());
+        itemColeta.setFamilia(p.getFamilia());
+        itemColeta.setTipo("Normal");
+        try {
+            itemColeta.setPreco(new BigDecimal(preco.replaceAll("[,]", ".")));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+
+        if (itemColetaDao.existeColeta(itemColeta)) {
+            itemColetaDao.alterarPreco(itemColeta);
+        } else {
+            itemColetaDao.incluir(itemColeta);
+        }
+    }
+
+    private void incluirAlteraTipoFoto(ItemColeta itemColeta, ProdutoPesquisa p) {
+        itemColeta.setSeqFamilia(p.getSeqFamilia());
+        itemColeta.setFamilia(p.getFamilia());
+
+        if (itemColetaDao.existeColeta(itemColeta)) {
+            itemColetaDao.alterarPreco(itemColeta);
+        } else {
+            itemColetaDao.incluir(itemColeta);
         }
     }
 }

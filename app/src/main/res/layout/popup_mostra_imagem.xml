@@ -20,15 +20,15 @@
         android:orientation="horizontal"
         android:padding="8dp">
 
-        <Button
-            android:id="@+id/btCancelar"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:text="@string/cancelar"
-            android:textAppearance="@style/TextAppearance.Small"
-            android:textColor="?attr/colorControlActivated" />
+        <!--<Button-->
+            <!--android:id="@+id/btCancelar"-->
+            <!--style="?android:attr/borderlessButtonStyle"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="8dp"-->
+            <!--android:text="@string/cancelar"-->
+            <!--android:textAppearance="@style/TextAppearance.Small"-->
+            <!--android:textColor="?attr/colorControlActivated" />-->
 
         <Button
             android:id="@+id/btFeito"

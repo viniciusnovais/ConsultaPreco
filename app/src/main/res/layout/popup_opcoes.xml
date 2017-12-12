@@ -10,30 +10,30 @@
         android:layout_margin="16dp"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/descricao"
-            android:textAppearance="@style/TextAppearance.Small" />
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/descricao"-->
+            <!--android:textAppearance="@style/TextAppearance.Small" />-->
 
-        <TextView
-            android:id="@+id/tvDescricao"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.Large" />
+        <!--<TextView-->
+            <!--android:id="@+id/tvDescricao"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textAppearance="@style/TextAppearance.Large" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/eans"
-            android:textAppearance="@style/TextAppearance.Small" />
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:text="@string/eans"-->
+            <!--android:textAppearance="@style/TextAppearance.Small" />-->
 
-        <ListView
-            android:id="@+id/listViewEans"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </ListView>
+        <!--<ListView-->
+            <!--android:id="@+id/listViewEans"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+        <!--</ListView>-->
 
         <TextView
             android:layout_width="wrap_content"

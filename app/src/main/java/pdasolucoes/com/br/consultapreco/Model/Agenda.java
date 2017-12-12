@@ -15,6 +15,15 @@ public class Agenda {
     private int lista;
     private int status;
     private int idUsuario;
+    private String dataHoraInicio;
+
+    public String getDataHoraInicio() {
+        return dataHoraInicio;
+    }
+
+    public void setDataHoraInicio(String dataHoraInicio) {
+        this.dataHoraInicio = dataHoraInicio;
+    }
 
     public int getIdUsuario() {
         return idUsuario;

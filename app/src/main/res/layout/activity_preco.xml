@@ -94,38 +94,6 @@
 
     </LinearLayout>
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center">
-
-        <ImageView
-            android:id="@+id/listaHorizontal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".33"
-            android:src="@drawable/ic_horizontal_line"
-            android:textAppearance="@style/TextAppearance.Small" />
-
-        <ImageView
-            android:id="@+id/beep"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".33"
-            android:src="@drawable/ic_search_black_64dp"
-            android:textAppearance="@style/TextAppearance.Small" />
-
-        <ImageView
-            android:id="@+id/listaVertical"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".33"
-            android:src="@drawable/ic_vertical_line"
-            android:textAppearance="@style/TextAppearance.Small" />
-    </LinearLayout>
-
     <Button
         android:id="@+id/btFeito"
         android:layout_width="match_parent"
@@ -164,7 +132,7 @@
                 android:id="@+id/tvDesc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".33"
+                android:layout_weight=".4"
                 android:background="@drawable/border_editext_preco"
                 android:maxLines="1"
                 android:text="@string/descv"
@@ -174,7 +142,7 @@
                 android:id="@+id/tvMarca"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".33"
+                android:layout_weight=".4"
                 android:background="@drawable/border_editext_preco"
                 android:maxLines="1"
                 android:text="@string/marcav"
@@ -195,7 +163,7 @@
                 android:id="@+id/editPreco"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".33"
+                android:layout_weight=".2"
                 android:background="@drawable/border_editext_preco"
                 android:maxLines="1"
                 android:text="@string/preco"
@@ -313,14 +281,14 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/tvDescricao"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="right"
-                        android:text="@string/desc"
+                        android:text="@string/descricao"
                         android:textAppearance="@style/TextAppearance.Small" />
 
                     <TextView
@@ -334,13 +302,13 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="right"
-                        android:text="@string/marca"
+                        android:text="@string/marcav"
                         android:textAppearance="@style/TextAppearance.Small" />
 
                     <TextView

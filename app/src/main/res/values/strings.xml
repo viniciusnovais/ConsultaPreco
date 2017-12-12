@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Pesquisa Preço</string>
     <string name="entrar">Entrar</string>
-    <string name="poweredby">Power by</string>
+    <string name="poweredby">Powered by</string>
     <string name="usuario">Usuário</string>
     <string name="senha">Senha</string>
     <string name="agenda">Agenda</string>
@@ -54,4 +54,5 @@
     <string name="tipo">Tipo</string>
     <string name="sub_tipo">SubTipo</string>
     <string name="produto">Produto</string>
+    <string name="produto_n_encontrado">Produto não encontrado</string>
 </resources>

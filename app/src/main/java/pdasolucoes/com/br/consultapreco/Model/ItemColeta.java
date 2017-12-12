@@ -8,21 +8,15 @@ import java.math.BigDecimal;
 
 public class ItemColeta {
 
-    private int id;
     private String ean;
-    private String descProduto;
+    private int seqFamilia;
+    private String familia;
+    private int agendaId;
     private BigDecimal preco;
     private String caminhoFoto;
     private byte[] foto;
     private String tipo;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getEan() {
         return ean;
@@ -30,14 +24,6 @@ public class ItemColeta {
 
     public void setEan(String ean) {
         this.ean = ean;
-    }
-
-    public String getDescProduto() {
-        return descProduto;
-    }
-
-    public void setDescProduto(String descProduto) {
-        this.descProduto = descProduto;
     }
 
     public BigDecimal getPreco() {
@@ -70,5 +56,29 @@ public class ItemColeta {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public int getSeqFamilia() {
+        return seqFamilia;
+    }
+
+    public void setSeqFamilia(int seqFamilia) {
+        this.seqFamilia = seqFamilia;
+    }
+
+    public String getFamilia() {
+        return familia;
+    }
+
+    public void setFamilia(String familia) {
+        this.familia = familia;
+    }
+
+    public int getAgendaId() {
+        return agendaId;
+    }
+
+    public void setAgendaId(int agendaId) {
+        this.agendaId = agendaId;
     }
 }

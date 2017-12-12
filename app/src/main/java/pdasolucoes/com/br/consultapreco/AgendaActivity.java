@@ -16,7 +16,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import pdasolucoes.com.br.consultapreco.Adapter.ListaAgenda;
@@ -40,12 +42,14 @@ public class AgendaActivity extends AppCompatActivity {
     private SharedPreferences preferences;
     private AlertDialog dialog;
     private PesquisaProdutoDao pesquisaProdutoDao;
+    private Intent i;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agenda);
 
+        i = new Intent(AgendaActivity.this, PrecoActivity.class);
         preferences = getSharedPreferences(LoginActivity.PREFERENCES, MODE_PRIVATE);
         agendaDao = new AgendaDao(this);
         pesquisaProdutoDao = new PesquisaProdutoDao(this);
@@ -176,12 +180,9 @@ public class AgendaActivity extends AppCompatActivity {
             super.onPostExecute(o);
 
             if (o.toString().equals("OK")) {
-                Intent i = new Intent(AgendaActivity.this, PrecoActivity.class);
                 startActivity(i);
                 finish();
             }
-
-            //trazer lista com itens a serem pesquisados
         }
     }
 
@@ -216,7 +217,11 @@ public class AgendaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                i.putExtra("agendaId", a.getId());
+                a.setDataHoraInicio(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date()));
+                agendaDao.AlterarDataHoraInicio(a);
                 new AsyncAbrirPesquisa().execute(a.getId());
+
             }
         });
 

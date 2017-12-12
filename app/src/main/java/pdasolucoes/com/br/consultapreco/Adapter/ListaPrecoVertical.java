@@ -3,12 +3,15 @@ package pdasolucoes.com.br.consultapreco.Adapter;
 import android.content.ClipData;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -30,7 +33,7 @@ public class ListaPrecoVertical extends RecyclerView.Adapter<ListaPrecoVertical.
 
 
     public interface ItemPreco {
-        void onPreco(String preco);
+        void onPreco(String preco, int position);
     }
 
     public void ItemPrecoListener(ItemPreco itemPreco) {
@@ -38,7 +41,7 @@ public class ListaPrecoVertical extends RecyclerView.Adapter<ListaPrecoVertical.
     }
 
     public interface ItemClick {
-        void onClick(int position);
+        void onClick(ProdutoPesquisa p);
     }
 
     public void ItemClickListener(ItemClick itemClick) {
@@ -61,21 +64,50 @@ public class ListaPrecoVertical extends RecyclerView.Adapter<ListaPrecoVertical.
     }
 
     @Override
-    public void onBindViewHolder(final ListaPrecoVertical.MyViewHolder holder, int position) {
+    public void onBindViewHolder(final ListaPrecoVertical.MyViewHolder holder, final int position) {
 
-        ProdutoPesquisa p = lista.get(position);
+        final ProdutoPesquisa p = lista.get(position);
 
         holder.tvDesc.setText(p.getFamilia());
 
         holder.tvMarca.setText(p.getMarca());
 
-        holder.editPreco.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-
-                if (!hasFocus) {
-                    itemPreco.onPreco(holder.editPreco.getText().toString());
+        if (!p.getPreco().equals("")) {
+            if (p.getPrecoDigitado() != null) {
+                holder.editPreco.setText(p.getPrecoDigitado().replaceAll("[.]", ","));
+                if (p.getPrecoDigitado().equals("0") || p.getPrecoDigitado().equals("")) {
+                    holder.editPreco.setText("");
                 }
+            } else {
+                holder.editPreco.setText(p.getPreco().replaceAll("[.]", ","));
+                if (p.getPreco().equals("0") || p.getPreco().equals("")) {
+                    holder.editPreco.setText("");
+                }
+            }
+
+
+        }
+
+        holder.editPreco.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if (!holder.editPreco.getEditableText().toString().equals("")) {
+                    p.setPrecoDigitado(holder.editPreco.getText().toString());
+                } else {
+                    p.setPrecoDigitado("0");
+                }
+                itemPreco.onPreco(p.getPrecoDigitado(), position);
             }
         });
 
@@ -86,11 +118,16 @@ public class ListaPrecoVertical extends RecyclerView.Adapter<ListaPrecoVertical.
         return lista.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public EditText editPreco;
         public TextView tvDesc, tvMarca;
+        public LinearLayout llPai;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -98,12 +135,13 @@ public class ListaPrecoVertical extends RecyclerView.Adapter<ListaPrecoVertical.
             tvDesc = (TextView) itemView.findViewById(R.id.tvDesc);
             tvMarca = (TextView) itemView.findViewById(R.id.tvMarca);
             editPreco = (EditText) itemView.findViewById(R.id.editPreco);
+
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            itemClick.onClick(getAdapterPosition());
+            itemClick.onClick(lista.get(getAdapterPosition()));
         }
     }
 }

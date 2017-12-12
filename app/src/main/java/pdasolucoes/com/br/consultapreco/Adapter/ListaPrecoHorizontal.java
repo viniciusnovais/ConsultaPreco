@@ -39,7 +39,7 @@ public class ListaPrecoHorizontal extends RecyclerView.Adapter<ListaPrecoHorizon
     private ItemPreco itemPreco;
 
     public interface ItemPreco {
-        void onPreco(String preco);
+        void onPreco(String preco, int position);
     }
 
     public void ItemPrecoListener(ItemPreco itemPreco) {
@@ -47,7 +47,7 @@ public class ListaPrecoHorizontal extends RecyclerView.Adapter<ListaPrecoHorizon
     }
 
     public interface OpcaoClick {
-        void onClick(String opcao);
+        void onClick(String opcao, ProdutoPesquisa p);
     }
 
     public void OpcaoClickListener(OpcaoClick opcaoClick) {
@@ -71,21 +71,35 @@ public class ListaPrecoHorizontal extends RecyclerView.Adapter<ListaPrecoHorizon
     }
 
     @Override
-    public void onBindViewHolder(final ListaPrecoHorizontal.MyViewHolder holder, int position) {
+    public void onBindViewHolder(final ListaPrecoHorizontal.MyViewHolder holder, final int position) {
 
-        ProdutoPesquisa p = lista.get(position);
+        final ProdutoPesquisa p = lista.get(position);
 
         holder.tvDesc.setText(p.getFamilia());
 
         holder.tvMarca.setText(p.getMarca());
 
-        holder.linearLayoutDetalhe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FuncoesUtil.popupEans(context);
-            }
-        });
+//        holder.linearLayoutDetalhe.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                FuncoesUtil.popupEans(context);
+//            }
+//        });
 
+
+        if (!p.getPreco().equals("")) {
+            if (p.getPrecoDigitado() != null) {
+                holder.editPreco.setText(p.getPrecoDigitado().replaceAll("[.]", ","));
+                if (p.getPrecoDigitado().equals("0") || p.getPrecoDigitado().equals("")) {
+                    holder.editPreco.setText("");
+                }
+            } else {
+                holder.editPreco.setText(p.getPreco().replaceAll("[.]", ","));
+                if (p.getPreco().equals("0") && p.getPreco().equals("")) {
+                    holder.editPreco.setText("");
+                }
+            }
+        }
         holder.editPreco.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -100,9 +114,12 @@ public class ListaPrecoHorizontal extends RecyclerView.Adapter<ListaPrecoHorizon
             @Override
             public void afterTextChanged(Editable s) {
 
-                if (!s.toString().equals("")) {
-                    itemPreco.onPreco(s.toString());
+                if (!holder.editPreco.getText().equals("")) {
+                    p.setPrecoDigitado(holder.editPreco.getText().toString());
+                } else {
+                    p.setPrecoDigitado("0");
                 }
+                itemPreco.onPreco(p.getPrecoDigitado(), position);
             }
         });
 
@@ -110,7 +127,7 @@ public class ListaPrecoHorizontal extends RecyclerView.Adapter<ListaPrecoHorizon
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 //vou ter q criar uma interface para passar esses dados para a activity
-                opcaoClick.onClick(FuncoesUtil.verificaRadioGroup(group, checkedId));
+                opcaoClick.onClick(FuncoesUtil.verificaRadioGroup(group, checkedId), p);
             }
         });
     }

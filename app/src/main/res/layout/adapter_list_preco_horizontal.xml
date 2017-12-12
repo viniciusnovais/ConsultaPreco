@@ -43,14 +43,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tvDescricao"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:text="@string/desc"
+                    android:text="@string/descricao"
                     android:textAppearance="@style/TextAppearance.Small" />
 
                 <TextView
@@ -64,13 +63,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:text="@string/marca"
+                    android:text="@string/marcav"
                     android:textAppearance="@style/TextAppearance.Small" />
 
                 <TextView
