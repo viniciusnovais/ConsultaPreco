@@ -10,30 +10,6 @@
         android:layout_margin="16dp"
         android:orientation="vertical">
 
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@string/descricao"-->
-            <!--android:textAppearance="@style/TextAppearance.Small" />-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/tvDescricao"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textAppearance="@style/TextAppearance.Large" />-->
-
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:text="@string/eans"-->
-            <!--android:textAppearance="@style/TextAppearance.Small" />-->
-
-        <!--<ListView-->
-            <!--android:id="@+id/listViewEans"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content">-->
-        <!--</ListView>-->
 
         <TextView
             android:layout_width="wrap_content"
@@ -46,26 +22,37 @@
             android:id="@+id/groupOpcoes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+
 
             <RadioButton
+                android:id="@+id/oferta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/oferta"
                 android:textAppearance="@style/TextAppearance.Small" />
 
             <RadioButton
+                android:id="@+id/ruptura"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:text="@string/ruptura"
                 android:textAppearance="@style/TextAppearance.Small" />
 
+
             <RadioButton
+                android:id="@+id/fifo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+
                 android:text="@string/fifo"
+                android:textAppearance="@style/TextAppearance.Small" />
+
+            <RadioButton
+                android:id="@+id/normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/normal"
                 android:textAppearance="@style/TextAppearance.Small" />
 
         </RadioGroup>
@@ -94,8 +81,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:textAppearance="@style/TextAppearance.Small"
                 android:text="@string/feito"
+                android:textAppearance="@style/TextAppearance.Small"
                 android:textColor="?attr/colorControlActivated" />
 
         </LinearLayout>

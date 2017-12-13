@@ -60,11 +60,20 @@ public class ItemColetaDao {
         getDatabase().update("itemColeta", values, "seqFamilia = " + i.getSeqFamilia() + " and agendaId = " + i.getAgendaId(), null);
     }
 
-    public void alterarTipoCaminhoFoto(ItemColeta i) {
+    public void alterarTipo(ItemColeta i) {
+        ContentValues values = new ContentValues();
+
+        values.put("tipo", i.getTipo());
+        values.put("caminhoFoto", i.getCaminhoFoto());
+        values.put("preco", String.valueOf(i.getPreco()));
+
+        getDatabase().update("itemColeta", values, "seqFamilia = " + i.getSeqFamilia() + " and agendaId = " + i.getAgendaId(), null);
+    }
+
+    public void alterarCaminhoFoto(ItemColeta i) {
         ContentValues values = new ContentValues();
 
         values.put("caminhoFoto", i.getCaminhoFoto());
-        values.put("tipo", i.getTipo());
 
         getDatabase().update("itemColeta", values, "seqFamilia = " + i.getSeqFamilia() + " and agendaId = " + i.getAgendaId(), null);
     }

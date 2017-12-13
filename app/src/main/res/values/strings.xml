@@ -55,4 +55,5 @@
     <string name="sub_tipo">SubTipo</string>
     <string name="produto">Produto</string>
     <string name="produto_n_encontrado">Produto não encontrado</string>
+    <string name="normal">Normal</string>
 </resources>

@@ -66,7 +66,7 @@ public class PrecoActivity extends AppCompatActivity {
     private RadioGroup groupOpcoesB;
     private SpinnerDialog spinnerSecao, spinnerSubSecao, spinnerTipo, spinnerSubTipo, spinnerProduto;
     private Button btFeito;
-    private ImageView btListaHorizontal, btListaVertical, btBeep, imageFilter;
+    private ImageView imageFilter;
     private int position = 0, cod1 = -1, cod2 = -1, cod3 = -1, cod4 = -1;
     private File file;
     private CategoriaDao categoriaDao;
@@ -110,9 +110,6 @@ public class PrecoActivity extends AppCompatActivity {
         linearLayoutRespostaBusca = (LinearLayout) findViewById(R.id.linearLayoutRespostaBusca);
         editCodigo = (EditText) findViewById(R.id.editCodigo);
 
-        btListaHorizontal = (ImageView) findViewById(R.id.listaHorizontal);
-        btListaVertical = (ImageView) findViewById(R.id.listaVertical);
-        btBeep = (ImageView) findViewById(R.id.beep);
 
         atualizaListas(pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4));
 
@@ -143,155 +140,6 @@ public class PrecoActivity extends AppCompatActivity {
                 secaoFiltro(categoriaDao.listarSecao());
             }
         });
-
-        btListaHorizontal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                linearLayoutHorizontal.setVisibility(View.VISIBLE);
-                linearLayoutVertical.setVisibility(View.GONE);
-                linearLayoutBusca.setVisibility(View.GONE);
-
-                editCodigo.setText("");
-                linearLayoutBusca.setVisibility(View.INVISIBLE);
-
-                atualizaListas(pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4));
-            }
-        });
-
-
-        btListaVertical.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                linearLayoutHorizontal.setVisibility(View.GONE);
-                linearLayoutVertical.setVisibility(View.VISIBLE);
-                linearLayoutBusca.setVisibility(View.GONE);
-
-                editCodigo.setText("");
-                linearLayoutBusca.setVisibility(View.INVISIBLE);
-
-                arrowRight.setVisibility(View.INVISIBLE);
-                arrowLeft.setVisibility(View.INVISIBLE);
-
-                CustomLinearLayoutManager llm = new CustomLinearLayoutManager(PrecoActivity.this, LinearLayoutManager.VERTICAL, false);
-                recyclerViewVertical.setLayoutManager(llm);
-
-                atualizaListas(pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4));
-
-            }
-        });
-
-        btBeep.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                linearLayoutHorizontal.setVisibility(View.GONE);
-                linearLayoutVertical.setVisibility(View.GONE);
-                linearLayoutBusca.setVisibility(View.VISIBLE);
-                linearLayoutDetalhe = (LinearLayout) findViewById(R.id.linearLayoutDetalhe);
-
-//                linearLayoutDetalhe.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        FuncoesUtil.popupEans(PrecoActivity.this);
-//                    }
-//                });
-
-                final ProdutoPesquisa[] p = new ProdutoPesquisa[1];
-                final EditText editPreco = (EditText) findViewById(R.id.editPrecob);
-                final TextView tvDescricao = (TextView) findViewById(R.id.tvDescb);
-                final TextView tvMarca = (TextView) findViewById(R.id.tvMarcab);
-
-                groupOpcoesB.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-
-                        acaoAposSelecao(FuncoesUtil.verificaRadioGroup(group, checkedId), p[0]);
-                    }
-                });
-
-                editPreco.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        if (!s.toString().equals("")) {
-                            incluiOuAlteraPreco(s.toString(), p[0]);
-                        }
-                    }
-                });
-
-                editCodigo.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                            if ((event.getRawX() <= editCodigo.getCompoundDrawables()[0].getBounds().width())) {
-                                if (!editCodigo.getText().toString().equals("")) {
-                                    p[0] = pesquisaProdutoDao.buscaProdEan(editCodigo.getText().toString());
-                                    if (p[0] != null) {
-                                        tvMarca.setText(p[0].getMarca());
-                                        tvDescricao.setText(p[0].getFamilia());
-                                        if (p[0].getPreco() != null) {
-                                            editPreco.setText(p[0].getPreco());
-                                        }
-                                        linearLayoutRespostaBusca.setVisibility(View.VISIBLE);
-                                    } else {
-                                        Toast.makeText(PrecoActivity.this, getString(R.string.produto_n_encontrado), Toast.LENGTH_SHORT).show();
-                                    }
-                                } else {
-                                    Toast.makeText(PrecoActivity.this, getString(R.string.campos_obrigatorio), Toast.LENGTH_SHORT).show();
-                                }
-
-                                editPreco.requestFocus();
-                                return true;
-                            }
-                        }
-                        return false;
-                    }
-                });
-
-                editCodigo.setOnKeyListener(new View.OnKeyListener() {
-                    @Override
-                    public boolean onKey(View v, int keyCode, KeyEvent event) {
-
-                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                            if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                                if (!editCodigo.getText().toString().equals("")) {
-                                    //passar o texto o código para a busca no banco
-                                    p[0] = pesquisaProdutoDao.buscaProdEan(editCodigo.getText().toString());
-                                    if (p[0] != null) {
-                                        tvMarca.setText(p[0].getMarca());
-                                        tvDescricao.setText(p[0].getFamilia());
-                                        if (p[0].getPreco() != null) {
-                                            editPreco.setText(p[0].getPreco());
-                                        }
-                                        linearLayoutRespostaBusca.setVisibility(View.VISIBLE);
-                                    } else {
-                                        Toast.makeText(PrecoActivity.this, getString(R.string.produto_n_encontrado), Toast.LENGTH_SHORT).show();
-                                    }
-
-                                } else {
-                                    Toast.makeText(PrecoActivity.this, getString(R.string.campos_obrigatorio), Toast.LENGTH_SHORT).show();
-                                }
-
-                                editPreco.requestFocus();
-                            }
-                        }
-
-                        return false;
-                    }
-                });
-            }
-        });
     }
 
     //aqui irei passar o produto selecionado como parametro
@@ -320,6 +168,8 @@ public class PrecoActivity extends AppCompatActivity {
             }
         });
 
+        FuncoesUtil.selecionarRadio(p.getTipo(), group);
+
         btCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -330,7 +180,8 @@ public class PrecoActivity extends AppCompatActivity {
         btFeito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                incluirAlteraTipo(itemColeta, p);
+                dialogOpcao.dismiss();
             }
         });
 
@@ -350,7 +201,9 @@ public class PrecoActivity extends AppCompatActivity {
                 if (file != null && file.exists()) {
 
                     //mostrandao imagem ao clicar em oferta
-                    FuncoesUtil.mostraImagem(PrecoActivity.this, Uri.fromFile(file));
+                    itemColeta.setCaminhoFoto(file.getAbsolutePath());
+                    FuncoesUtil.mostraImagem(PrecoActivity.this, Uri.fromFile(file), itemColeta);
+
                 }
             }
         }
@@ -362,15 +215,15 @@ public class PrecoActivity extends AppCompatActivity {
         if (opcao.equals("Oferta")) {
             //foto e preco
             file = FuncoesUtil.AbrirCamera(PrecoActivity.this);
-            itemColeta.setCaminhoFoto(file.getAbsolutePath());
         } else if (opcao.equals("Ruptura")) {
             //não pega preco, só insere flag
+            itemColeta.setPreco(new BigDecimal("0"));
             itemColeta.setCaminhoFoto("");
         } else if (opcao.equals("Fifo")) {
             itemColeta.setCaminhoFoto("");
         }
         itemColeta.setTipo(opcao);
-        incluirAlteraTipoFoto(itemColeta, p);
+        incluirAlteraTipo(itemColeta, p);
     }
 
     private void secaoFiltro(ArrayList<Categoria> lista) {
@@ -485,92 +338,218 @@ public class PrecoActivity extends AppCompatActivity {
 
     private void atualizaListas(List<ProdutoPesquisa> lista) {
 
-        CustomLinearLayoutManager llm = new CustomLinearLayoutManager(PrecoActivity.this, LinearLayoutManager.HORIZONTAL, false);
-        customRecyclerView.setLayoutManager(llm);
+        if (getIntent().hasExtra("tipo_pesquisa")) {
+            if (getIntent().getStringExtra("tipo_pesquisa").equals("H")) {
 
-        adapterHorizontal = new ListaPrecoHorizontal(PrecoActivity.this, lista);
-        customRecyclerView.setAdapter(adapterHorizontal);
+                linearLayoutHorizontal.setVisibility(View.VISIBLE);
+                linearLayoutVertical.setVisibility(View.GONE);
+                linearLayoutBusca.setVisibility(View.GONE);
 
-        adapterHorizontal.ItemPrecoListener(new ListaPrecoHorizontal.ItemPreco() {
-            @Override
-            public void onPreco(String preco, int position) {
-                incluiOuAlteraPreco(preco, pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4).get(position));
-            }
-        });
+                CustomLinearLayoutManager llm = new CustomLinearLayoutManager(PrecoActivity.this, LinearLayoutManager.HORIZONTAL, false);
+                customRecyclerView.setLayoutManager(llm);
 
-        adapterHorizontal.OpcaoClickListener(new ListaPrecoHorizontal.OpcaoClick() {
-            @Override
-            public void onClick(String opcao, ProdutoPesquisa p) {
-                acaoAposSelecao(opcao, p);
-            }
-        });
+                adapterHorizontal = new ListaPrecoHorizontal(PrecoActivity.this, lista);
+                customRecyclerView.setAdapter(adapterHorizontal);
 
-
-        arrowRight.setVisibility(View.VISIBLE);
-        if (position == customRecyclerView.getAdapter().getItemCount() - 1) {
-            arrowRight.setVisibility(View.INVISIBLE);
-        }
-        arrowRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                customRecyclerView.postDelayed(new Runnable() {
+                adapterHorizontal.ItemPrecoListener(new ListaPrecoHorizontal.ItemPreco() {
                     @Override
-                    public void run() {
+                    public void onPreco(String preco, int position) {
+                        incluiOuAlteraPreco(preco, pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4).get(position));
+                    }
+                });
 
-                        arrowLeft.setVisibility(View.VISIBLE);
-                        position++;
-                        customRecyclerView.scrollToPosition(position);
+                adapterHorizontal.OpcaoClickListener(new ListaPrecoHorizontal.OpcaoClick() {
+                    @Override
+                    public void onClick(String opcao, ProdutoPesquisa p) {
+                        acaoAposSelecao(opcao, p);
+                    }
+                });
 
 
-                        if (position == customRecyclerView.getAdapter().getItemCount() - 1) {
-                            arrowRight.setVisibility(View.INVISIBLE);
+                arrowRight.setVisibility(View.VISIBLE);
+                if (position == customRecyclerView.getAdapter().getItemCount() - 1) {
+                    arrowRight.setVisibility(View.INVISIBLE);
+                }
+                arrowRight.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        customRecyclerView.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                arrowLeft.setVisibility(View.VISIBLE);
+                                position++;
+                                customRecyclerView.scrollToPosition(position);
+
+
+                                if (position == customRecyclerView.getAdapter().getItemCount() - 1) {
+                                    arrowRight.setVisibility(View.INVISIBLE);
+                                }
+                            }
+                        }, 100);
+                    }
+                });
+
+
+                if (position <= 0) {
+                    arrowLeft.setVisibility(View.INVISIBLE);
+                }
+                arrowLeft.setVisibility(View.INVISIBLE);
+                arrowLeft.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        customRecyclerView.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                arrowRight.setVisibility(View.VISIBLE);
+
+                                position--;
+                                customRecyclerView.scrollToPosition(position);
+
+                                if (position <= 0)
+                                    arrowLeft.setVisibility(View.INVISIBLE);
+                            }
+                        }, 100);
+                    }
+                });
+
+            } else if (getIntent().getStringExtra("tipo_pesquisa").equals("V")) {
+
+                linearLayoutHorizontal.setVisibility(View.GONE);
+                linearLayoutVertical.setVisibility(View.VISIBLE);
+                linearLayoutBusca.setVisibility(View.GONE);
+
+                editCodigo.setText("");
+                linearLayoutBusca.setVisibility(View.INVISIBLE);
+
+                arrowRight.setVisibility(View.INVISIBLE);
+                arrowLeft.setVisibility(View.INVISIBLE);
+
+                CustomLinearLayoutManager llm = new CustomLinearLayoutManager(PrecoActivity.this, LinearLayoutManager.VERTICAL, false);
+                recyclerViewVertical.setLayoutManager(llm);
+
+                adapterVertical = new ListaPrecoVertical(PrecoActivity.this, lista);
+                recyclerViewVertical.setAdapter(adapterVertical);
+
+                adapterVertical.ItemPrecoListener(new ListaPrecoVertical.ItemPreco() {
+                    @Override
+                    public void onPreco(String preco, int position) {
+                        incluiOuAlteraPreco(preco, pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4).get(position));
+                    }
+                });
+
+                adapterVertical.ItemClickListener(new ListaPrecoVertical.ItemClick() {
+                    @Override
+                    public void onClick(ProdutoPesquisa p) {
+
+                        popupOpcoes(p);
+                    }
+                });
+            } else if (getIntent().getStringExtra("tipo_pesquisa").equals("B")) {
+                linearLayoutHorizontal.setVisibility(View.GONE);
+                linearLayoutVertical.setVisibility(View.GONE);
+                linearLayoutBusca.setVisibility(View.VISIBLE);
+                linearLayoutDetalhe = (LinearLayout) findViewById(R.id.linearLayoutDetalhe);
+
+                final ProdutoPesquisa[] p = new ProdutoPesquisa[1];
+                final EditText editPreco = (EditText) findViewById(R.id.editPrecob);
+                final TextView tvDescricao = (TextView) findViewById(R.id.tvDescb);
+                final TextView tvMarca = (TextView) findViewById(R.id.tvMarcab);
+
+                editPreco.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        if (!s.toString().equals("")) {
+                            incluiOuAlteraPreco(s.toString(), p[0]);
                         }
                     }
-                }, 100);
-            }
-        });
+                });
 
-
-        if (position <= 0) {
-            arrowLeft.setVisibility(View.INVISIBLE);
-        }
-        arrowLeft.setVisibility(View.INVISIBLE);
-        arrowLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                customRecyclerView.postDelayed(new Runnable() {
+                editCodigo.setOnTouchListener(new View.OnTouchListener() {
                     @Override
-                    public void run() {
+                    public boolean onTouch(View v, MotionEvent event) {
+                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                            if ((event.getRawX() <= editCodigo.getCompoundDrawables()[0].getBounds().width())) {
+                                if (!editCodigo.getText().toString().equals("")) {
+                                    p[0] = pesquisaProdutoDao.buscaProdEan(editCodigo.getText().toString());
+                                    if (p[0] != null) {
+                                        editCodigo.setText("");
+                                        FuncoesUtil.selecionarRadio(p[0].getTipo(), groupOpcoesB);
+                                        tvMarca.setText(p[0].getMarca());
+                                        tvDescricao.setText(p[0].getFamilia());
+                                        if (p[0].getPreco() != null) {
+                                            editPreco.setText(p[0].getPreco().replaceAll("[.]", ","));
+                                        }
+                                        linearLayoutRespostaBusca.setVisibility(View.VISIBLE);
+                                    } else {
+                                        Toast.makeText(PrecoActivity.this, getString(R.string.produto_n_encontrado), Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    Toast.makeText(PrecoActivity.this, getString(R.string.campos_obrigatorio), Toast.LENGTH_SHORT).show();
+                                }
 
-                        arrowRight.setVisibility(View.VISIBLE);
-
-                        position--;
-                        customRecyclerView.scrollToPosition(position);
-
-                        if (position <= 0)
-                            arrowLeft.setVisibility(View.INVISIBLE);
+                                editPreco.requestFocus();
+                                return true;
+                            }
+                        }
+                        return false;
                     }
-                }, 100);
+                });
+
+                editCodigo.setOnKeyListener(new View.OnKeyListener() {
+                    @Override
+                    public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                            if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                                if (!editCodigo.getText().toString().equals("")) {
+                                    //passar o texto o código para a busca no banco
+                                    p[0] = pesquisaProdutoDao.buscaProdEan(editCodigo.getText().toString());
+                                    if (p[0] != null) {
+                                        editCodigo.setText("");
+                                        FuncoesUtil.selecionarRadio(p[0].getTipo(), groupOpcoesB);
+                                        tvMarca.setText(p[0].getMarca());
+                                        tvDescricao.setText(p[0].getFamilia());
+                                        if (p[0].getPreco() != null) {
+                                            editPreco.setText(p[0].getPreco().replaceAll("[.]", ","));
+                                        }
+                                        linearLayoutRespostaBusca.setVisibility(View.VISIBLE);
+                                    } else {
+                                        Toast.makeText(PrecoActivity.this, getString(R.string.produto_n_encontrado), Toast.LENGTH_SHORT).show();
+                                    }
+
+                                } else {
+                                    Toast.makeText(PrecoActivity.this, getString(R.string.campos_obrigatorio), Toast.LENGTH_SHORT).show();
+                                }
+
+                                editPreco.requestFocus();
+                            }
+                        }
+
+                        return false;
+                    }
+                });
+
+                groupOpcoesB.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+
+                        acaoAposSelecao(FuncoesUtil.verificaRadioGroup(group, checkedId), p[0]);
+                    }
+                });
             }
-        });
-
-        adapterVertical = new ListaPrecoVertical(PrecoActivity.this, lista);
-        recyclerViewVertical.setAdapter(adapterVertical);
-
-        adapterVertical.ItemPrecoListener(new ListaPrecoVertical.ItemPreco() {
-            @Override
-            public void onPreco(String preco, int position) {
-                incluiOuAlteraPreco(preco, pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4).get(position));
-            }
-        });
-
-        adapterVertical.ItemClickListener(new ListaPrecoVertical.ItemClick() {
-            @Override
-            public void onClick(ProdutoPesquisa p) {
-
-                popupOpcoes(p);
-            }
-        });
+        }
 
     }
 
@@ -592,12 +571,12 @@ public class PrecoActivity extends AppCompatActivity {
         }
     }
 
-    private void incluirAlteraTipoFoto(ItemColeta itemColeta, ProdutoPesquisa p) {
+    private void incluirAlteraTipo(ItemColeta itemColeta, ProdutoPesquisa p) {
         itemColeta.setSeqFamilia(p.getSeqFamilia());
         itemColeta.setFamilia(p.getFamilia());
 
         if (itemColetaDao.existeColeta(itemColeta)) {
-            itemColetaDao.alterarPreco(itemColeta);
+            itemColetaDao.alterarTipo(itemColeta);
         } else {
             itemColetaDao.incluir(itemColeta);
         }

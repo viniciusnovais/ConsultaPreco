@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,7 @@ public class AgendaActivity extends AppCompatActivity {
     private AlertDialog dialog;
     private PesquisaProdutoDao pesquisaProdutoDao;
     private Intent i;
+    private android.support.v7.app.AlertDialog dialog2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -180,8 +182,7 @@ public class AgendaActivity extends AppCompatActivity {
             super.onPostExecute(o);
 
             if (o.toString().equals("OK")) {
-                startActivity(i);
-                finish();
+                escolheLista();
             }
         }
     }
@@ -192,8 +193,7 @@ public class AgendaActivity extends AppCompatActivity {
         builder.setView(v);
 
         Button btCancelar, btFeito;
-        TextView tvPraca, tvConcorrente, tvdata, tvUsuario;
-        tvPraca = (TextView) v.findViewById(R.id.tvPraca);
+        TextView tvConcorrente, tvdata, tvUsuario;
         tvConcorrente = (TextView) v.findViewById(R.id.tvConcorrente);
         tvdata = (TextView) v.findViewById(R.id.data);
         tvUsuario = (TextView) v.findViewById(R.id.tvUsuario);
@@ -228,5 +228,51 @@ public class AgendaActivity extends AppCompatActivity {
 
         dialog = builder.create();
         dialog.show();
+    }
+
+    private void escolheLista() {
+        View v = View.inflate(AgendaActivity.this, R.layout.popup_escolhe_lista, null);
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(AgendaActivity.this);
+        builder.setView(v);
+
+        ImageView imageHorizontal = (ImageView) v.findViewById(R.id.listaHorizontal);
+        ImageView beep = (ImageView) v.findViewById(R.id.beep);
+        ImageView imageVertical = (ImageView) v.findViewById(R.id.listaVertical);
+
+
+        imageHorizontal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                i.putExtra("tipo_pesquisa", "H");
+                dialog2.dismiss();
+                startActivity(i);
+                finish();
+            }
+        });
+
+        beep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                i.putExtra("tipo_pesquisa", "B");
+                dialog2.dismiss();
+                startActivity(i);
+                finish();
+            }
+        });
+
+        imageVertical.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                i.putExtra("tipo_pesquisa", "V");
+                dialog2.dismiss();
+                startActivity(i);
+                finish();
+            }
+        });
+
+        dialog2 = builder.create();
+        dialog2.show();
+
+
     }
 }

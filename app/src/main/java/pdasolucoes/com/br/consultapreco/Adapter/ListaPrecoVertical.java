@@ -18,6 +18,7 @@ import java.util.List;
 
 import pdasolucoes.com.br.consultapreco.Model.ProdutoPesquisa;
 import pdasolucoes.com.br.consultapreco.R;
+import pdasolucoes.com.br.consultapreco.Util.FuncoesUtil;
 
 /**
  * Created by PDA on 16/11/2017.

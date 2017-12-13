@@ -79,13 +79,7 @@ public class ListaPrecoHorizontal extends RecyclerView.Adapter<ListaPrecoHorizon
 
         holder.tvMarca.setText(p.getMarca());
 
-//        holder.linearLayoutDetalhe.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                FuncoesUtil.popupEans(context);
-//            }
-//        });
-
+        FuncoesUtil.selecionarRadio(p.getTipo(), holder.radioGroup);
 
         if (!p.getPreco().equals("")) {
             if (p.getPrecoDigitado() != null) {

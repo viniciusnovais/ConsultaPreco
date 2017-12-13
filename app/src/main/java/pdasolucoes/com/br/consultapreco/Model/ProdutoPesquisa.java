@@ -23,8 +23,18 @@ public class ProdutoPesquisa {
     private int cod4;
     private String nivel4;
 
+    //apenas para mostrar, não estou salvando no banco
     private String preco;
     private String precoDigitado;
+    private String tipo;
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 
     public String getPrecoDigitado() {
         return precoDigitado;

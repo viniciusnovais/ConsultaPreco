@@ -16,9 +16,9 @@
     <LinearLayout
         android:id="@+id/llFiltros"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone"
-        android:layout_height="wrap_content">
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -76,19 +76,19 @@
         </LinearLayout>
 
         <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal">-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal">-->
 
-            <!--<TextView-->
-                <!--android:id="@+id/tvProduto"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight=".1"-->
-                <!--android:background="@drawable/border_spinner"-->
-                <!--android:gravity="start|center"-->
-                <!--android:hint="@string/produto"-->
-                <!--android:textAppearance="@style/TextAppearance.Small" />-->
+        <!--<TextView-->
+        <!--android:id="@+id/tvProduto"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight=".1"-->
+        <!--android:background="@drawable/border_spinner"-->
+        <!--android:gravity="start|center"-->
+        <!--android:hint="@string/produto"-->
+        <!--android:textAppearance="@style/TextAppearance.Small" />-->
 
         <!--</LinearLayout>-->
 
@@ -119,14 +119,14 @@
             android:orientation="horizontal">
 
             <!--<TextView-->
-                <!--android:id="@+id/tvEan"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight=".2"-->
-                <!--android:background="@drawable/border_editext_preco"-->
-                <!--android:maxLines="1"-->
-                <!--android:text="@string/eanv"-->
-                <!--android:textAppearance="@style/TextAppearance.Small" />-->
+            <!--android:id="@+id/tvEan"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight=".2"-->
+            <!--android:background="@drawable/border_editext_preco"-->
+            <!--android:maxLines="1"-->
+            <!--android:text="@string/eanv"-->
+            <!--android:textAppearance="@style/TextAppearance.Small" />-->
 
             <TextView
                 android:id="@+id/tvDesc"
@@ -149,14 +149,14 @@
                 android:textAppearance="@style/TextAppearance.Small" />
 
             <!--<TextView-->
-                <!--android:id="@+id/tvUnidMedida"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight=".2"-->
-                <!--android:background="@drawable/border_editext_preco"-->
-                <!--android:maxLines="1"-->
-                <!--android:text="@string/unid_medidav"-->
-                <!--android:textAppearance="@style/TextAppearance.Small" />-->
+            <!--android:id="@+id/tvUnidMedida"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight=".2"-->
+            <!--android:background="@drawable/border_editext_preco"-->
+            <!--android:maxLines="1"-->
+            <!--android:text="@string/unid_medidav"-->
+            <!--android:textAppearance="@style/TextAppearance.Small" />-->
 
 
             <TextView
@@ -259,22 +259,22 @@
                 android:orientation="vertical">
 
                 <!--<LinearLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:orientation="horizontal">-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal">-->
 
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="@string/ean"-->
-                        <!--android:textAppearance="@style/TextAppearance.Small" />-->
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/ean"-->
+                <!--android:textAppearance="@style/TextAppearance.Small" />-->
 
-                    <!--<TextView-->
-                        <!--android:id="@+id/tvEanb"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text=" 654316464"-->
-                        <!--android:textAppearance="@style/TextAppearance.Large" />-->
+                <!--<TextView-->
+                <!--android:id="@+id/tvEanb"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text=" 654316464"-->
+                <!--android:textAppearance="@style/TextAppearance.Large" />-->
 
                 <!--</LinearLayout>-->
 
@@ -321,23 +321,23 @@
                 </LinearLayout>
 
                 <!--<LinearLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:orientation="horizontal">-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal">-->
 
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:gravity="right"-->
-                        <!--android:text="@string/unid_medida"-->
-                        <!--android:textAppearance="@style/TextAppearance.Small" />-->
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="right"-->
+                <!--android:text="@string/unid_medida"-->
+                <!--android:textAppearance="@style/TextAppearance.Small" />-->
 
-                    <!--<TextView-->
-                        <!--android:id="@+id/tvUnidMedidab"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text=" LT"-->
-                        <!--android:textAppearance="@style/TextAppearance.Large" />-->
+                <!--<TextView-->
+                <!--android:id="@+id/tvUnidMedidab"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text=" LT"-->
+                <!--android:textAppearance="@style/TextAppearance.Large" />-->
 
                 <!--</LinearLayout>-->
             </LinearLayout>
@@ -366,29 +366,39 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/oferta"
-                    android:textAppearance="@style/TextAppearance.Small" />
+                    <RadioButton
+                        android:id="@+id/oferta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/oferta"
+                        android:textAppearance="@style/TextAppearance.Small" />
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/ruptura"
-                    android:textAppearance="@style/TextAppearance.Small" />
+                    <RadioButton
+                        android:id="@+id/ruptura"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/fifo"
-                    android:textAppearance="@style/TextAppearance.Small" />
+                        android:text="@string/ruptura"
+                        android:textAppearance="@style/TextAppearance.Small" />
 
+
+                    <RadioButton
+                        android:id="@+id/fifo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="@string/fifo"
+                        android:textAppearance="@style/TextAppearance.Small" />
+
+                    <RadioButton
+                        android:id="@+id/normal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/normal"
+                        android:textAppearance="@style/TextAppearance.Small" />
             </RadioGroup>
 
         </LinearLayout>

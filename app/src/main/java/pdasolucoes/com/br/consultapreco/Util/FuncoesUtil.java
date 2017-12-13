@@ -22,6 +22,8 @@ import android.widget.TextView;
 import java.io.File;
 import java.util.List;
 
+import pdasolucoes.com.br.consultapreco.Dao.ItemColetaDao;
+import pdasolucoes.com.br.consultapreco.Model.ItemColeta;
 import pdasolucoes.com.br.consultapreco.PrecoActivity;
 import pdasolucoes.com.br.consultapreco.R;
 
@@ -99,10 +101,12 @@ public class FuncoesUtil {
         return file;
     }
 
-    public static void mostraImagem(Context context, Uri image) {
+    public static void mostraImagem(Context context, Uri image, final ItemColeta i) {
         View v = View.inflate(context, R.layout.popup_mostra_imagem, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setView(v);
+
+        final ItemColetaDao itemColetaDao = new ItemColetaDao(context);
 
         ImageView imageView = (ImageView) v.findViewById(R.id.imageView);
 
@@ -116,15 +120,30 @@ public class FuncoesUtil {
         btFeito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (itemColetaDao.existeColeta(i)) {
+                    itemColetaDao.alterarCaminhoFoto(i);
+                } else {
+                    itemColetaDao.incluir(i);
+                }
                 dialogImage.dismiss();
             }
         });
 
 
-
-
-
         dialogImage = builder.create();
         dialogImage.show();
+    }
+
+    public static void selecionarRadio(String text, RadioGroup group) {
+
+        if (text.equals("Oferta")) {
+            group.check(R.id.oferta);
+        } else if (text.equals("Ruptura")) {
+            group.check(R.id.ruptura);
+        } else if (text.equals("Fifo")) {
+            group.check(R.id.fifo);
+        }else {
+            group.check(R.id.normal);
+        }
     }
 }

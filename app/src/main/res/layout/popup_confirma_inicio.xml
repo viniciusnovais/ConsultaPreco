@@ -17,19 +17,6 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:text="@string/praca"
-        android:layout_marginTop="20dp"
-        android:textAppearance="@style/TextAppearance.Small"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/tvPraca"
-        android:layout_width="match_parent"
-        android:textAppearance="@style/TextAppearance.Large"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:layout_width="match_parent"
         android:text="@string/concorrente"
         android:layout_marginTop="10dp"
         android:textAppearance="@style/TextAppearance.Small"
