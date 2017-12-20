@@ -56,4 +56,10 @@
     <string name="produto">Produto</string>
     <string name="produto_n_encontrado">Produto não encontrado</string>
     <string name="normal">Normal</string>
+    <string name="conecte_se">Conecte-se a um rede de internet</string>
+    <string name="sucesso">Enviado com sucesso</string>
+    <string name="falha_enviar">Falha ao Enviar</string>
+    <string name="enviando">Enviando...</string>
+    <string name="versao">1.0.0</string>
+    <string name="deseja_enviar">Deseja Enviar Itens ?</string>
 </resources>

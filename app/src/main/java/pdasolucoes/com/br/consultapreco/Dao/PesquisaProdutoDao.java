@@ -111,15 +111,16 @@ public class PesquisaProdutoDao {
         return lista;
     }
 
-    public List<ProdutoPesquisa> filtroPesquisa(int cod1, int cod2, int cod3, int cod4) {
+    public List<ProdutoPesquisa> filtroPesquisa(int cod1, int cod2, int cod3, int cod4,int idAgenda) {
         List<ProdutoPesquisa> lista = new ArrayList<>();
-        Cursor cursor = getDatabase().rawQuery("SELECT p.seqFamilia, p.familia, p.seqmarca,p.marca, p.codacesso, p.seqlista,p.cod1,p.nivel1,p.cod2,p.nivel2,p.cod3,p.nivel3,p.cod4,p.nivel4," +
+        Cursor cursor = getDatabase().rawQuery("SELECT p.seqFamilia, p.familia, p.seqmarca,p.marca, p.codacesso, p.seqlista,p.cod1,p.nivel1,p.cod2,p.nivel2,p.cod3,p.nivel3,p.cod4,p.nivel4,i.enviado," +
                 " CASE WHEN i.tipo IS NULL THEN '' ELSE i.tipo END tipo, CASE WHEN i.preco IS NULL THEN '' ELSE i.preco END preco FROM produtoPesquisa p LEFT JOIN itemColeta i ON i.seqfamilia = p.seqfamilia" +
                 " WHERE ((p.COD1 = " + cod1 + ") OR (" + cod1 + " = -1)) AND ((" + cod2 + " = -1) OR (p.COD2 = " + cod2 + ")) AND ((p.COD3 = +" + cod3 + " ) OR (" + cod3 + " = -1)) AND ((p.COD4 = " + cod4 + ")OR(" + cod4 + " = -1))" +
-                " GROUP BY p.seqFamilia,p.familia,p.seqMarca,p.marca,p.seqLista,p.cod1,p.nivel1,p.cod2,p.nivel2,p.cod3,p.nivel3,p.cod4,p.nivel4,i.tipo,i.preco", null);
+                " AND ((i.enviado IS NULL)  OR (i.enviado = 0)) GROUP BY p.seqFamilia,p.familia,p.seqMarca,p.marca,p.seqLista,p.cod1,p.nivel1,p.cod2,p.nivel2,p.cod3,p.nivel3,p.cod4,p.nivel4,i.tipo,i.preco,i.enviado", null);
 
         try {
 
+             deletar(idAgenda);
             while (cursor.moveToNext()) {
                 ProdutoPesquisa p = new ProdutoPesquisa();
 
@@ -138,6 +139,7 @@ public class PesquisaProdutoDao {
                 p.setCod4(cursor.getInt(cursor.getColumnIndex("cod4")));
                 p.setNivel4(cursor.getString(cursor.getColumnIndex("nivel4")));
                 p.setPreco(cursor.getString(cursor.getColumnIndex("preco")));
+                p.setEnviado(cursor.getInt(cursor.getColumnIndex("enviado")));
 
                 lista.add(p);
             }
@@ -151,11 +153,20 @@ public class PesquisaProdutoDao {
         return lista;
     }
 
+    private void deletar(int idAgenda) {
+        getDatabase().delete("itemColeta", "agendaId <> " + idAgenda, null);
+
+    }
+
     public ProdutoPesquisa buscaProdEan(String codAcesso) {
         ProdutoPesquisa p = new ProdutoPesquisa();
 
+        if (codAcesso.contains("\n")){
+            codAcesso = codAcesso.replaceAll("[\n]","");
+        }
+
         Cursor cursor = getDatabase().rawQuery("SELECT p.seqFamilia,p.familia,p.seqMarca,p.marca,p.seqlista," +
-                " CASE WHEN i.tipo IS NULL THEN '' ELSE i.tipo END tipo, CASE WHEN i.preco IS NULL THEN '' ELSE i.preco END preco" +
+                " CASE WHEN i.tipo IS NULL THEN '' ELSE i.tipo END tipo, CASE WHEN i.preco IS NULL THEN '' ELSE i.preco END preco, i.enviado" +
                 " FROM produtoPesquisa p" +
                 " LEFT JOIN itemColeta i ON p.seqfamilia = i.seqfamilia" +
                 " WHERE codAcesso = ?", new String[]{codAcesso});
@@ -170,6 +181,7 @@ public class PesquisaProdutoDao {
                 p.setSeqLista(cursor.getInt(cursor.getColumnIndex("seqLista")));
                 p.setPreco(cursor.getString(cursor.getColumnIndex("preco")));
                 p.setTipo(cursor.getString(cursor.getColumnIndex("tipo")));
+                p.setEnviado(cursor.getInt(cursor.getColumnIndex("enviado")));
 
             }
         } catch (Exception e) {

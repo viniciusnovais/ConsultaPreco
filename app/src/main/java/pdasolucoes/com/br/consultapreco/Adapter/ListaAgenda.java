@@ -83,7 +83,6 @@ public class ListaAgenda extends RecyclerView.Adapter<ListaAgenda.MyViewHolder> 
             super(itemView);
 
             tvNome = (TextView) itemView.findViewById(R.id.nomeConcorrente);
-            tvPraca = (TextView) itemView.findViewById(R.id.praca);
             tvLoja = (TextView) itemView.findViewById(R.id.loja);
             tvData = (TextView) itemView.findViewById(R.id.data);
             llAgenda = (LinearLayout) itemView.findViewById(R.id.llAgenda);

@@ -27,9 +27,18 @@ public class ProdutoPesquisa {
     private String preco;
     private String precoDigitado;
     private String tipo;
+    private int enviado;
 
     public String getTipo() {
         return tipo;
+    }
+
+    public int getEnviado() {
+        return enviado;
+    }
+
+    public void setEnviado(int enviado) {
+        this.enviado = enviado;
     }
 
     public void setTipo(String tipo) {

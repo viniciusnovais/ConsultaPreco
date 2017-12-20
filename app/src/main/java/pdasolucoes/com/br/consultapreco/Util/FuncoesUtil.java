@@ -46,9 +46,9 @@ public class FuncoesUtil {
             return "Fifo";
         } else if (radio.getText().toString().equals("Ruptura")) {
             return "Ruptura";
+        } else {
+            return "Normal";
         }
-
-        return "";
     }
 
     //vou precisar passar o objeto produto
@@ -142,7 +142,7 @@ public class FuncoesUtil {
             group.check(R.id.ruptura);
         } else if (text.equals("Fifo")) {
             group.check(R.id.fifo);
-        }else {
+        } else {
             group.check(R.id.normal);
         }
     }

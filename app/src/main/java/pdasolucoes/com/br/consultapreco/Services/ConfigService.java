@@ -6,7 +6,12 @@ package pdasolucoes.com.br.consultapreco.Services;
 
 public class ConfigService {
 
-    public static final String URL = "http://192.168.15.34/wsveranteste/";
+    //acesso interno
+    //public static final String URL = "http://192.168.2.115:8096/";
+    //teste na pda
+    //public static final String URL = "http://192.168.15.28/WsVeranTeste/";
+    //acesso externo
+    public static final String URL = "http://187.8.134.194:8096/";
     public static final String NAMESPACE = "http://tempuri.org/";
 
 }

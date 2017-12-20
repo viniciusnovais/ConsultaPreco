@@ -20,26 +20,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal">-->
-
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@string/ean"-->
-            <!--android:textAppearance="@style/TextAppearance.Small" />-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/tvEan"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text=" 654316464"-->
-            <!--android:textAppearance="@style/TextAppearance.Large" />-->
-
-            <!--</LinearLayout>-->
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,27 +59,6 @@
                     android:textAppearance="@style/TextAppearance.Large" />
 
             </LinearLayout>
-
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal">-->
-
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="right"-->
-            <!--android:text="@string/unid_medida"-->
-            <!--android:textAppearance="@style/TextAppearance.Small" />-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/tvUnidMedida"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text=" LT"-->
-            <!--android:textAppearance="@style/TextAppearance.Large" />-->
-
-            <!--</LinearLayout>-->
         </LinearLayout>
 
         <EditText
@@ -158,9 +117,5 @@
                     android:textAppearance="@style/TextAppearance.Small" />
 
         </RadioGroup>
-
-
     </LinearLayout>
-
-
 </LinearLayout>

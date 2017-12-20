@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -81,6 +82,7 @@ public class ListaPrecoHorizontal extends RecyclerView.Adapter<ListaPrecoHorizon
 
         FuncoesUtil.selecionarRadio(p.getTipo(), holder.radioGroup);
 
+
         if (!p.getPreco().equals("")) {
             if (p.getPrecoDigitado() != null) {
                 holder.editPreco.setText(p.getPrecoDigitado().replaceAll("[.]", ","));
@@ -117,10 +119,12 @@ public class ListaPrecoHorizontal extends RecyclerView.Adapter<ListaPrecoHorizon
             }
         });
 
+
         holder.radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 //vou ter q criar uma interface para passar esses dados para a activity
+
                 opcaoClick.onClick(FuncoesUtil.verificaRadioGroup(group, checkedId), p);
             }
         });

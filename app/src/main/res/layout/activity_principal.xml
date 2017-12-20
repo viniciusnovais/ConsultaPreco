@@ -62,5 +62,13 @@
         android:src="@drawable/ic_settings_white_24dp"/>
 </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:text="@string/versao"
+        android:textAppearance="@style/TextAppearance.Small"
+        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content" />
+
 
 </FrameLayout>

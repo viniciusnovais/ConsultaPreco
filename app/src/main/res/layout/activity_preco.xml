@@ -1,408 +1,445 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
-    android:orientation="vertical">
+    android:layout_width="match_parent">
 
-    <ImageView
-        android:id="@+id/imageFilter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:src="@drawable/ic_filter_list_black_24dp" />
-
-    <LinearLayout
-        android:id="@+id/llFiltros"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvSecao"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".2"
-                android:background="@drawable/border_spinner"
-                android:gravity="start|center"
-                android:hint="@string/secao"
-                android:textAppearance="@style/TextAppearance.Small" />
-
-            <TextView
-                android:id="@+id/tvSubSecao"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_weight=".2"
-                android:background="@drawable/border_spinner"
-                android:gravity="start|center"
-                android:hint="@string/sub_secao"
-                android:textAppearance="@style/TextAppearance.Small" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvTipo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".2"
-                android:background="@drawable/border_spinner"
-                android:gravity="start|center"
-                android:hint="@string/tipo"
-                android:textAppearance="@style/TextAppearance.Small" />
-
-            <TextView
-                android:id="@+id/tvSubTipo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_weight=".2"
-                android:background="@drawable/border_spinner"
-                android:gravity="start|center"
-                android:hint="@string/sub_tipo"
-                android:textAppearance="@style/TextAppearance.Small" />
-
-        </LinearLayout>
-
-        <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal">-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/tvProduto"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight=".1"-->
-        <!--android:background="@drawable/border_spinner"-->
-        <!--android:gravity="start|center"-->
-        <!--android:hint="@string/produto"-->
-        <!--android:textAppearance="@style/TextAppearance.Small" />-->
-
-        <!--</LinearLayout>-->
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/btFeito"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/colorAccent"
-        android:text="@string/feito"
-        android:textAppearance="@style/TextAppearance.Small"
-        android:textColor="@color/colorWhite" />
-
-    <LinearLayout
-        android:id="@+id/linearLayoutVertical"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical"
-        android:visibility="gone">
-
+        android:layout_margin="16dp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <!--<TextView-->
-            <!--android:id="@+id/tvEan"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight=".2"-->
-            <!--android:background="@drawable/border_editext_preco"-->
-            <!--android:maxLines="1"-->
-            <!--android:text="@string/eanv"-->
-            <!--android:textAppearance="@style/TextAppearance.Small" />-->
-
-            <TextView
-                android:id="@+id/tvDesc"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".4"
-                android:background="@drawable/border_editext_preco"
-                android:maxLines="1"
-                android:text="@string/descv"
-                android:textAppearance="@style/TextAppearance.Small" />
-
-            <TextView
-                android:id="@+id/tvMarca"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".4"
-                android:background="@drawable/border_editext_preco"
-                android:maxLines="1"
-                android:text="@string/marcav"
-                android:textAppearance="@style/TextAppearance.Small" />
-
-            <!--<TextView-->
-            <!--android:id="@+id/tvUnidMedida"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight=".2"-->
-            <!--android:background="@drawable/border_editext_preco"-->
-            <!--android:maxLines="1"-->
-            <!--android:text="@string/unid_medidav"-->
-            <!--android:textAppearance="@style/TextAppearance.Small" />-->
-
-
-            <TextView
-                android:id="@+id/editPreco"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".2"
-                android:background="@drawable/border_editext_preco"
-                android:maxLines="1"
-                android:text="@string/preco"
-                android:textAppearance="@style/TextAppearance.Small" />
-
-
-        </LinearLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerViewVertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </android.support.v7.widget.RecyclerView>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayoutHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/arrowLeft"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight=".1"
-            android:elevation="5dp"
-            android:src="@drawable/ic_keyboard_arrow_left_black_36dp"
-            android:visibility="invisible" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".8"
-            android:orientation="vertical">
-
-            <pdasolucoes.com.br.consultapreco.Util.CustomRecyclerView
-                android:id="@+id/customRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </pdasolucoes.com.br.consultapreco.Util.CustomRecyclerView>
-
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/arrowRight"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight=".1"
-            android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/linearLayoutBusca"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <EditText
-            android:id="@+id/editCodigo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_search_black_24dp"
-            android:hint="@string/busque_produto"
-            android:imeOptions="actionNext"
-            android:textAppearance="@style/TextAppearance.Small" />
-
-
-        <LinearLayout
-            android:id="@+id/linearLayoutRespostaBusca"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical"
-            android:visibility="invisible">
 
             <LinearLayout
-                android:id="@+id/linearLayoutDetalhe"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_weight=".9"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="horizontal">-->
-
-                <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="@string/ean"-->
-                <!--android:textAppearance="@style/TextAppearance.Small" />-->
-
-                <!--<TextView-->
-                <!--android:id="@+id/tvEanb"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text=" 654316464"-->
-                <!--android:textAppearance="@style/TextAppearance.Large" />-->
-
-                <!--</LinearLayout>-->
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginTop="3dp"
+                    android:text="Progresso: "
+                    android:textAppearance="@style/TextAppearance.Small" />
 
-                    <TextView
-                        android:id="@+id/tvDescricao"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:text="@string/descricao"
-                        android:textAppearance="@style/TextAppearance.Small" />
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="150dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="3dp"
+                    android:progress="0" />
 
-                    <TextView
-                        android:id="@+id/tvDescb"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" Coca - Cola"
-                        android:textAppearance="@style/TextAppearance.Large" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/textBar"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:textAppearance="@style/TextAppearance.Small" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:text="@string/marcav"
-                        android:textAppearance="@style/TextAppearance.Small" />
 
-                    <TextView
-                        android:id="@+id/tvMarcab"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" Coca - Cola"
-                        android:textAppearance="@style/TextAppearance.Large" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text=" / "
+                    android:textAppearance="@style/TextAppearance.Small" />
 
-                </LinearLayout>
-
-                <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="horizontal">-->
-
-                <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:gravity="right"-->
-                <!--android:text="@string/unid_medida"-->
-                <!--android:textAppearance="@style/TextAppearance.Small" />-->
-
-                <!--<TextView-->
-                <!--android:id="@+id/tvUnidMedidab"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text=" LT"-->
-                <!--android:textAppearance="@style/TextAppearance.Large" />-->
-
-                <!--</LinearLayout>-->
+                <TextView
+                    android:id="@+id/textMax"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textAppearance="@style/TextAppearance.Small" />
             </LinearLayout>
 
-            <EditText
-                android:id="@+id/editPrecob"
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/imageFilter"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/border_editext_preco"
-                android:digits=",0123456789"
-                android:gravity="start"
-                android:hint="@string/cifrao"
-                android:inputType="numberDecimal"
-                android:textAppearance="@style/TextAppearance.Small" />
+                android:layout_gravity="end"
+                android:layout_weight=".1"
+                android:src="@drawable/ic_filter_list_black_24dp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="@string/opcoes"
-                android:textAppearance="@style/TextAppearance.Small" />
+        </LinearLayout>
 
-            <RadioGroup
-                android:id="@+id/groupOpcoesB"
+        <LinearLayout
+            android:id="@+id/llFiltros"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvSecao"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".2"
+                    android:background="@drawable/border_spinner"
+                    android:gravity="start|center"
+                    android:hint="@string/secao"
+                    android:textAppearance="@style/TextAppearance.Small" />
+
+                <TextView
+                    android:id="@+id/tvSubSecao"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight=".2"
+                    android:background="@drawable/border_spinner"
+                    android:gravity="start|center"
+                    android:hint="@string/sub_secao"
+                    android:textAppearance="@style/TextAppearance.Small" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvTipo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".2"
+                    android:background="@drawable/border_spinner"
+                    android:gravity="start|center"
+                    android:hint="@string/tipo"
+                    android:textAppearance="@style/TextAppearance.Small" />
+
+                <TextView
+                    android:id="@+id/tvSubTipo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight=".2"
+                    android:background="@drawable/border_spinner"
+                    android:gravity="start|center"
+                    android:hint="@string/sub_tipo"
+                    android:textAppearance="@style/TextAppearance.Small" />
+
+            </LinearLayout>
+
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/tvProduto"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight=".1"-->
+            <!--android:background="@drawable/border_spinner"-->
+            <!--android:gravity="start|center"-->
+            <!--android:hint="@string/produto"-->
+            <!--android:textAppearance="@style/TextAppearance.Small" />-->
+
+            <!--</LinearLayout>-->
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btFeito"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorAccent"
+            android:text="@string/feito"
+            android:textAppearance="@style/TextAppearance.Small"
+            android:textColor="@color/colorWhite" />
+
+        <LinearLayout
+            android:id="@+id/linearLayoutVertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!--<TextView-->
+                <!--android:id="@+id/tvEan"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight=".2"-->
+                <!--android:background="@drawable/border_editext_preco"-->
+                <!--android:maxLines="1"-->
+                <!--android:text="@string/eanv"-->
+                <!--android:textAppearance="@style/TextAppearance.Small" />-->
+
+                <TextView
+                    android:id="@+id/tvDesc"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".4"
+                    android:background="@drawable/border_editext_preco"
+                    android:maxLines="1"
+                    android:text="@string/descv"
+                    android:textAppearance="@style/TextAppearance.Small" />
+
+                <TextView
+                    android:id="@+id/tvMarca"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".4"
+                    android:background="@drawable/border_editext_preco"
+                    android:maxLines="1"
+                    android:text="@string/marcav"
+                    android:textAppearance="@style/TextAppearance.Small" />
+
+                <!--<TextView-->
+                <!--android:id="@+id/tvUnidMedida"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight=".2"-->
+                <!--android:background="@drawable/border_editext_preco"-->
+                <!--android:maxLines="1"-->
+                <!--android:text="@string/unid_medidav"-->
+                <!--android:textAppearance="@style/TextAppearance.Small" />-->
+
+
+                <TextView
+                    android:id="@+id/editPreco"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".2"
+                    android:background="@drawable/border_editext_preco"
+                    android:maxLines="1"
+                    android:text="@string/preco"
+                    android:textAppearance="@style/TextAppearance.Small" />
+
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewVertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayoutHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/arrowLeft"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".1"
+                android:elevation="5dp"
+                android:src="@drawable/ic_keyboard_arrow_left_black_36dp"
+                android:visibility="invisible" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".8"
                 android:orientation="vertical">
 
+                <pdasolucoes.com.br.consultapreco.Util.CustomRecyclerView
+                    android:id="@+id/customRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                    <RadioButton
-                        android:id="@+id/oferta"
+                </pdasolucoes.com.br.consultapreco.Util.CustomRecyclerView>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/arrowRight"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".1"
+                android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linearLayoutBusca"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <EditText
+                android:id="@+id/editCodigo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_search_black_24dp"
+                android:hint="@string/busque_produto"
+                android:imeOptions="actionNext"
+                android:textAppearance="@style/TextAppearance.Small" />
+
+
+            <LinearLayout
+                android:id="@+id/linearLayoutRespostaBusca"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                android:visibility="invisible">
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutDetalhe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvDescricao"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="@string/descricao"
+                            android:textAppearance="@style/TextAppearance.Small" />
+
+                        <TextView
+                            android:id="@+id/tvDescb"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" Coca - Cola"
+                            android:textAppearance="@style/TextAppearance.Large" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="@string/marcav"
+                            android:textAppearance="@style/TextAppearance.Small" />
+
+                        <TextView
+                            android:id="@+id/tvMarcab"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" Coca - Cola"
+                            android:textAppearance="@style/TextAppearance.Large" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/editPrecob"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/border_editext_preco"
+                    android:digits=",0123456789"
+                    android:gravity="start"
+                    android:hint="@string/cifrao"
+                    android:inputType="numberDecimal"
+                    android:textAppearance="@style/TextAppearance.Small" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text="@string/opcoes"
+                    android:textAppearance="@style/TextAppearance.Small" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioGroup
+                        android:id="@+id/groupOpcoesB"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight=".8"
+                        android:orientation="vertical">
+
+
+                        <RadioButton
+                            android:id="@+id/oferta"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/oferta"
+                            android:textAppearance="@style/TextAppearance.Small" />
+
+                        <RadioButton
+                            android:id="@+id/ruptura"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="@string/ruptura"
+                            android:textAppearance="@style/TextAppearance.Small" />
+
+
+                        <RadioButton
+                            android:id="@+id/fifo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="@string/fifo"
+                            android:textAppearance="@style/TextAppearance.Small" />
+
+                        <RadioButton
+                            android:id="@+id/normal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/normal"
+                            android:textAppearance="@style/TextAppearance.Small" />
+                    </RadioGroup>
+
+                    <Button
+                        android:id="@+id/btOk"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/oferta"
-                        android:textAppearance="@style/TextAppearance.Small" />
+                        android:layout_gravity="bottom|end"
+                        android:background="@color/colorAccent"
+                        android:text="@string/ok"
+                        android:textAppearance="@style/TextAppearance.Small"
+                        android:textColor="@color/colorWhite" />
 
-                    <RadioButton
-                        android:id="@+id/ruptura"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                </LinearLayout>
 
-                        android:text="@string/ruptura"
-                        android:textAppearance="@style/TextAppearance.Small" />
-
-
-                    <RadioButton
-                        android:id="@+id/fifo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-                        android:text="@string/fifo"
-                        android:textAppearance="@style/TextAppearance.Small" />
-
-                    <RadioButton
-                        android:id="@+id/normal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/normal"
-                        android:textAppearance="@style/TextAppearance.Small" />
-            </RadioGroup>
+            </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

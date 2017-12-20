@@ -1,8 +1,11 @@
 package pdasolucoes.com.br.consultapreco;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.IdRes;
@@ -43,11 +46,14 @@ import pdasolucoes.com.br.consultapreco.Interfaces.OnSpinerItemClick;
 import pdasolucoes.com.br.consultapreco.Model.Categoria;
 import pdasolucoes.com.br.consultapreco.Model.ItemColeta;
 import pdasolucoes.com.br.consultapreco.Model.ProdutoPesquisa;
+import pdasolucoes.com.br.consultapreco.Services.AgendaService;
+import pdasolucoes.com.br.consultapreco.Services.ItemColetaService;
 import pdasolucoes.com.br.consultapreco.Util.CustomLinearLayoutManager;
 import pdasolucoes.com.br.consultapreco.Util.CustomRecyclerView;
 import pdasolucoes.com.br.consultapreco.Util.FuncoesUtil;
 import pdasolucoes.com.br.consultapreco.Util.ImageResizeUtils;
 import pdasolucoes.com.br.consultapreco.Util.SpinnerDialog;
+import pdasolucoes.com.br.consultapreco.Util.VerificaConexao;
 
 /**
  * Created by PDA on 16/11/2017.
@@ -56,7 +62,7 @@ import pdasolucoes.com.br.consultapreco.Util.SpinnerDialog;
 public class PrecoActivity extends AppCompatActivity {
 
     private CustomRecyclerView customRecyclerView;
-    private AlertDialog dialogOpcao;
+    private AlertDialog dialogOpcao, dialogEnviaParcial;
     private List<ProdutoPesquisa> lista;
     private ListaPrecoHorizontal adapterHorizontal;
     private ListaPrecoVertical adapterVertical;
@@ -72,7 +78,7 @@ public class PrecoActivity extends AppCompatActivity {
     private CategoriaDao categoriaDao;
     private PesquisaProdutoDao pesquisaProdutoDao;
     private LinearLayout llFiltro, linearLayoutRespostaBusca;
-    private TextView tvSecao, tvSubSecao, tvTipo, tvSubTipo;
+    private TextView tvSecao, tvSubSecao, tvTipo, tvSubTipo, tvMax, tvBar;
     private EditText editCodigo;
     private ItemColeta itemColeta;
     private ItemColetaDao itemColetaDao;
@@ -104,6 +110,8 @@ public class PrecoActivity extends AppCompatActivity {
         tvSubSecao = (TextView) findViewById(R.id.tvSubSecao);
         tvTipo = (TextView) findViewById(R.id.tvTipo);
         tvSubTipo = (TextView) findViewById(R.id.tvSubTipo);
+        tvMax = (TextView) findViewById(R.id.textMax);
+        tvBar = (TextView) findViewById(R.id.textBar);
 
 
         //Busca por Produto
@@ -111,7 +119,7 @@ public class PrecoActivity extends AppCompatActivity {
         editCodigo = (EditText) findViewById(R.id.editCodigo);
 
 
-        atualizaListas(pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4));
+        atualizaListas(pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4, getIntent().getIntExtra("agendaId", 0)));
 
         imageFilter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,7 +137,9 @@ public class PrecoActivity extends AppCompatActivity {
         btFeito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //aqui irei validar se pode enviar parcial e se ja respondeu tudo
+
+                popupEnviaParcial(itemColetaDao.listaColeta());
+
             }
         });
 
@@ -140,6 +150,8 @@ public class PrecoActivity extends AppCompatActivity {
                 secaoFiltro(categoriaDao.listarSecao());
             }
         });
+
+        atualizaProgres();
     }
 
     //aqui irei passar o produto selecionado como parametro
@@ -147,14 +159,10 @@ public class PrecoActivity extends AppCompatActivity {
         View v = View.inflate(PrecoActivity.this, R.layout.popup_opcoes, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(PrecoActivity.this);
         builder.setView(v);
-//
-//        TextView tvDescricao;
-//        ListView listViewEans;
+
         RadioGroup group;
         Button btFeito, btCancelar;
 
-//        tvDescricao = (TextView) v.findViewById(R.id.tvDescricao);
-//        listViewEans = (ListView) v.findViewById(R.id.listViewEans);
         group = (RadioGroup) v.findViewById(R.id.groupOpcoes);
         btFeito = (Button) v.findViewById(R.id.btFeito);
         btCancelar = (Button) v.findViewById(R.id.btCancelar);
@@ -214,7 +222,7 @@ public class PrecoActivity extends AppCompatActivity {
 
         if (opcao.equals("Oferta")) {
             //foto e preco
-            file = FuncoesUtil.AbrirCamera(PrecoActivity.this);
+           // file = FuncoesUtil.AbrirCamera(PrecoActivity.this);
         } else if (opcao.equals("Ruptura")) {
             //não pega preco, só insere flag
             itemColeta.setPreco(new BigDecimal("0"));
@@ -237,7 +245,7 @@ public class PrecoActivity extends AppCompatActivity {
                 tvSecao.setText(c.getGenericText());
                 defultCampos(1);
                 cod1 = c.getCod1();
-                atualizaListas(pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4));
+                atualizaListas(pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4, getIntent().getIntExtra("agendaId", 0)));
                 tvSubSecao.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -262,13 +270,13 @@ public class PrecoActivity extends AppCompatActivity {
                 tvSubSecao.setText(c.getGenericText());
                 defultCampos(2);
                 cod2 = c.getCod2();
-                atualizaListas(pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4));
+                atualizaListas(pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4, getIntent().getIntExtra("agendaId", 0)));
                 tvTipo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         cod2 = c.getCod2();
                         tipoFiltro(categoriaDao.listarTipo(c.getCod2()));
-                        atualizaListas(pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4));
+                        atualizaListas(pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4, getIntent().getIntExtra("agendaId", 0)));
                     }
                 });
             }
@@ -285,7 +293,7 @@ public class PrecoActivity extends AppCompatActivity {
                 tvTipo.setText(c.getGenericText());
                 defultCampos(3);
                 cod3 = c.getCod3();
-                atualizaListas(pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4));
+                atualizaListas(pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4, getIntent().getIntExtra("agendaId", 0)));
                 tvSubTipo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -308,7 +316,7 @@ public class PrecoActivity extends AppCompatActivity {
                 final Categoria c = (Categoria) o;
                 tvSubTipo.setText(c.getGenericText());
                 cod4 = c.getCod4();
-                atualizaListas(pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4));
+                atualizaListas(pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4, getIntent().getIntExtra("agendaId", 0)));
             }
         });
 
@@ -354,7 +362,7 @@ public class PrecoActivity extends AppCompatActivity {
                 adapterHorizontal.ItemPrecoListener(new ListaPrecoHorizontal.ItemPreco() {
                     @Override
                     public void onPreco(String preco, int position) {
-                        incluiOuAlteraPreco(preco, pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4).get(position));
+                        incluiOuAlteraPreco(preco, pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4, getIntent().getIntExtra("agendaId", 0)).get(position));
                     }
                 });
 
@@ -403,7 +411,6 @@ public class PrecoActivity extends AppCompatActivity {
                             public void run() {
 
                                 arrowRight.setVisibility(View.VISIBLE);
-
                                 position--;
                                 customRecyclerView.scrollToPosition(position);
 
@@ -435,7 +442,11 @@ public class PrecoActivity extends AppCompatActivity {
                 adapterVertical.ItemPrecoListener(new ListaPrecoVertical.ItemPreco() {
                     @Override
                     public void onPreco(String preco, int position) {
-                        incluiOuAlteraPreco(preco, pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4).get(position));
+                        try {
+                            incluiOuAlteraPreco(preco, pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4, getIntent().getIntExtra("agendaId", 0)).get(position));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
 
@@ -443,7 +454,10 @@ public class PrecoActivity extends AppCompatActivity {
                     @Override
                     public void onClick(ProdutoPesquisa p) {
 
-                        popupOpcoes(p);
+                        if (p.getEnviado() != 1) {
+                            popupOpcoes(p);
+                        }
+
                     }
                 });
             } else if (getIntent().getStringExtra("tipo_pesquisa").equals("B")) {
@@ -456,6 +470,7 @@ public class PrecoActivity extends AppCompatActivity {
                 final EditText editPreco = (EditText) findViewById(R.id.editPrecob);
                 final TextView tvDescricao = (TextView) findViewById(R.id.tvDescb);
                 final TextView tvMarca = (TextView) findViewById(R.id.tvMarcab);
+                final Button btOk = (Button) findViewById(R.id.btOk);
 
                 editPreco.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -482,18 +497,52 @@ public class PrecoActivity extends AppCompatActivity {
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
                             if ((event.getRawX() <= editCodigo.getCompoundDrawables()[0].getBounds().width())) {
                                 if (!editCodigo.getText().toString().equals("")) {
-                                    p[0] = pesquisaProdutoDao.buscaProdEan(editCodigo.getText().toString());
-                                    if (p[0] != null) {
-                                        editCodigo.setText("");
-                                        FuncoesUtil.selecionarRadio(p[0].getTipo(), groupOpcoesB);
-                                        tvMarca.setText(p[0].getMarca());
-                                        tvDescricao.setText(p[0].getFamilia());
-                                        if (p[0].getPreco() != null) {
-                                            editPreco.setText(p[0].getPreco().replaceAll("[.]", ","));
+                                    try {
+                                        editPreco.setEnabled(true);
+                                        groupOpcoesB.setClickable(true);
+                                        for (int i = 0; i < groupOpcoesB.getChildCount(); i++) {
+                                            ((RadioButton) groupOpcoesB.getChildAt(i)).setEnabled(true);
                                         }
-                                        linearLayoutRespostaBusca.setVisibility(View.VISIBLE);
-                                    } else {
+                                        p[0] = pesquisaProdutoDao.buscaProdEan(editCodigo.getText().toString());
+                                        if (p[0].getEnviado() == 1) {
+                                            editPreco.setEnabled(false);
+                                            groupOpcoesB.setClickable(false);
+                                            for (int i = 0; i < groupOpcoesB.getChildCount(); i++) {
+                                                ((RadioButton) groupOpcoesB.getChildAt(i)).setEnabled(false);
+                                            }
+                                        }
+                                        if (p[0] != null) {
+                                            editCodigo.setText("");
+                                            FuncoesUtil.selecionarRadio(p[0].getTipo(), groupOpcoesB);
+                                            tvMarca.setText(p[0].getMarca());
+                                            tvDescricao.setText(p[0].getFamilia());
+                                            if (p[0].getPreco() != null) {
+                                                editPreco.setText(p[0].getPreco().replaceAll("[.]", ","));
+                                            }
+                                            linearLayoutRespostaBusca.setVisibility(View.VISIBLE);
+                                        } else {
+                                            Toast.makeText(PrecoActivity.this, getString(R.string.produto_n_encontrado), Toast.LENGTH_SHORT).show();
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    if (editCodigo != null) {
+                                                        editCodigo.requestFocus();
+                                                    }
+                                                }
+                                            }, 10);
+                                        }
+                                    }catch (Exception e){
                                         Toast.makeText(PrecoActivity.this, getString(R.string.produto_n_encontrado), Toast.LENGTH_SHORT).show();
+                                        editCodigo.setText("");
+                                        linearLayoutRespostaBusca.setVisibility(View.INVISIBLE);
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if (editCodigo != null) {
+                                                    editCodigo.requestFocus();
+                                                }
+                                            }
+                                        }, 10);
                                     }
                                 } else {
                                     Toast.makeText(PrecoActivity.this, getString(R.string.campos_obrigatorio), Toast.LENGTH_SHORT).show();
@@ -515,18 +564,52 @@ public class PrecoActivity extends AppCompatActivity {
                             if (keyCode == KeyEvent.KEYCODE_ENTER) {
                                 if (!editCodigo.getText().toString().equals("")) {
                                     //passar o texto o código para a busca no banco
-                                    p[0] = pesquisaProdutoDao.buscaProdEan(editCodigo.getText().toString());
-                                    if (p[0] != null) {
-                                        editCodigo.setText("");
-                                        FuncoesUtil.selecionarRadio(p[0].getTipo(), groupOpcoesB);
-                                        tvMarca.setText(p[0].getMarca());
-                                        tvDescricao.setText(p[0].getFamilia());
-                                        if (p[0].getPreco() != null) {
-                                            editPreco.setText(p[0].getPreco().replaceAll("[.]", ","));
+                                    try {
+                                        editPreco.setEnabled(true);
+                                        groupOpcoesB.setClickable(true);
+                                        for (int i = 0; i < groupOpcoesB.getChildCount(); i++) {
+                                            ((RadioButton) groupOpcoesB.getChildAt(i)).setEnabled(true);
                                         }
-                                        linearLayoutRespostaBusca.setVisibility(View.VISIBLE);
-                                    } else {
+                                        p[0] = pesquisaProdutoDao.buscaProdEan(editCodigo.getText().toString());
+                                        if (p[0].getEnviado() == 1) {
+                                            editPreco.setEnabled(false);
+                                            groupOpcoesB.setClickable(false);
+                                            for (int i = 0; i < groupOpcoesB.getChildCount(); i++) {
+                                                ((RadioButton) groupOpcoesB.getChildAt(i)).setEnabled(false);
+                                            }
+                                        }
+                                        if (p[0] != null) {
+                                            editCodigo.setText("");
+                                            FuncoesUtil.selecionarRadio(p[0].getTipo(), groupOpcoesB);
+                                            tvMarca.setText(p[0].getMarca());
+                                            tvDescricao.setText(p[0].getFamilia());
+                                            if (p[0].getPreco() != null) {
+                                                editPreco.setText(p[0].getPreco().replaceAll("[.]", ","));
+                                            }
+                                            linearLayoutRespostaBusca.setVisibility(View.VISIBLE);
+                                        } else {
+                                            Toast.makeText(PrecoActivity.this, getString(R.string.produto_n_encontrado), Toast.LENGTH_SHORT).show();
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    if (editCodigo != null) {
+                                                        editCodigo.requestFocus();
+                                                    }
+                                                }
+                                            }, 10);
+                                        }
+                                    }catch (Exception e){
                                         Toast.makeText(PrecoActivity.this, getString(R.string.produto_n_encontrado), Toast.LENGTH_SHORT).show();
+                                        editCodigo.setText("");
+                                        linearLayoutRespostaBusca.setVisibility(View.INVISIBLE);
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if (editCodigo != null) {
+                                                    editCodigo.requestFocus();
+                                                }
+                                            }
+                                        }, 10);
                                     }
 
                                 } else {
@@ -538,6 +621,22 @@ public class PrecoActivity extends AppCompatActivity {
                         }
 
                         return false;
+                    }
+                });
+
+                btOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        editCodigo.setText("");
+                        linearLayoutRespostaBusca.setVisibility(View.INVISIBLE);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (editCodigo != null) {
+                                    editCodigo.requestFocus();
+                                }
+                            }
+                        }, 10);
                     }
                 });
 
@@ -569,6 +668,8 @@ public class PrecoActivity extends AppCompatActivity {
         } else {
             itemColetaDao.incluir(itemColeta);
         }
+
+        atualizaProgres();
     }
 
     private void incluirAlteraTipo(ItemColeta itemColeta, ProdutoPesquisa p) {
@@ -579,6 +680,126 @@ public class PrecoActivity extends AppCompatActivity {
             itemColetaDao.alterarTipo(itemColeta);
         } else {
             itemColetaDao.incluir(itemColeta);
+        }
+
+        atualizaProgres();
+    }
+
+    private void atualizaProgres() {
+
+        tvBar.setText(itemColetaDao.pesquisaFeita() + "");
+
+        tvMax.setText(itemColetaDao.totalPesquisa() + "");
+    }
+
+    private void popupEnviaParcial(final List<ItemColeta> lista) {
+        View v = View.inflate(PrecoActivity.this, R.layout.popup_msg, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(PrecoActivity.this);
+        builder.setView(v);
+        TextView tvTitle = (TextView) v.findViewById(R.id.title);
+
+        tvTitle.setText(getString(R.string.deseja_enviar));
+        Button btsim = (Button) v.findViewById(R.id.btDone);
+        Button btNao = (Button) v.findViewById(R.id.btCancel);
+
+        btsim.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogEnviaParcial.dismiss();
+                //envia itens
+                if (VerificaConexao.isNetworkConnected(PrecoActivity.this)) {
+                    if (itemColetaDao.pesquisaFeita() == itemColetaDao.totalPesquisa()) {
+                        AsyncFecharPesquisa task = new AsyncFecharPesquisa();
+                        task.execute(getIntent().getIntExtra("agendaId", 0));
+                    }
+                    AsyncSetItem task = new AsyncSetItem();
+                    task.execute(lista);
+                    if (linearLayoutRespostaBusca.getVisibility() == View.VISIBLE) {
+                        linearLayoutRespostaBusca.setVisibility(View.INVISIBLE);
+                    }
+                } else {
+                    Toast.makeText(PrecoActivity.this, getString(R.string.conecte_se), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        btNao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogEnviaParcial.dismiss();
+            }
+        });
+
+
+        dialogEnviaParcial = builder.create();
+        dialogEnviaParcial.show();
+    }
+
+    private class AsyncSetItem extends AsyncTask {
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(PrecoActivity.this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setMessage(getString(R.string.enviando));
+            progressDialog.setCanceledOnTouchOutside(true);
+            progressDialog.show();
+
+        }
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+
+            String result = ItemColetaService.setItemColeta((List<ItemColeta>) params[0]);
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+
+                if (o.toString().equals("OK")) {
+                    //mensagem de ok
+                    for (ItemColeta i : itemColetaDao.listaColeta()) {
+                        itemColetaDao.enviado(i);
+                    }
+                    atualizaListas(pesquisaProdutoDao.filtroPesquisa(cod1, cod2, cod3, cod4, getIntent().getIntExtra("agendaId", 0)));
+                    Toast.makeText(PrecoActivity.this, getString(R.string.sucesso), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(PrecoActivity.this, getString(R.string.falha_enviar), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    private class AsyncFecharPesquisa extends AsyncTask {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            String result = AgendaService.FecharPesquisa(Integer.parseInt(params[0].toString()));
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+
+            if (o.toString().equals("OK")) {
+                itemColetaDao.deletar();
+                Intent i = new Intent(PrecoActivity.this, PrincipalActivity.class);
+                startActivity(i);
+            }
         }
     }
 }

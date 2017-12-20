@@ -31,7 +31,7 @@ public class PrincipalActivity extends AbsRuntimePermission {
     private ImageView imageAgenda;
     private static final int REQUEST_PERMISSION = 10;
     private SpinnerDialog spinnerDialogPraca, spinnerEndereco, spinnerDialogNome;
-    private CounterFab fab, fab1, fab2;
+    private CounterFab fab, fab1;
     private Animation fab_open, fab_close, rotate_forward, rotate_backward;
     private Boolean isFabOpen = false;
     private SharedPreferences preferences;
@@ -47,7 +47,6 @@ public class PrincipalActivity extends AbsRuntimePermission {
         //Floating Action Buttons
         fab = (CounterFab) findViewById(R.id.fab);
         fab1 = (CounterFab) findViewById(R.id.fab_1);
-        fab2 = (CounterFab) findViewById(R.id.fab_2);
 
         imageAgenda.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,10 +237,8 @@ public class PrincipalActivity extends AbsRuntimePermission {
 
             fab.startAnimation(rotate_backward);
             fab1.startAnimation(fab_close);
-            fab2.startAnimation(fab_close);
 
             fab1.setClickable(false);
-            fab2.setClickable(false);
             isFabOpen = false;
 
         } else {
@@ -249,9 +246,7 @@ public class PrincipalActivity extends AbsRuntimePermission {
 
             fab.startAnimation(rotate_forward);
             fab1.startAnimation(fab_open);
-            fab2.startAnimation(fab_open);
             fab1.setClickable(true);
-            fab2.setClickable(true);
             isFabOpen = true;
 
         }

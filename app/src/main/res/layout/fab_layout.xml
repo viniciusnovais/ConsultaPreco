@@ -11,21 +11,10 @@
         android:orientation="horizontal">
 
         <com.andremion.counterfab.CounterFab
-            android:id="@+id/fab_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:visibility="invisible"
-            app:backgroundTint="@color/colorAccent"
-            android:src="@drawable/ic_sync_black_24dp" />
-
-
-        <com.andremion.counterfab.CounterFab
             android:id="@+id/fab_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginLeft="-22dp"
             android:visibility="invisible"
             app:backgroundTint="@color/colorAccent"
             android:src="@drawable/ic_logout" />

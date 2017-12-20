@@ -22,6 +22,7 @@ public class AgendaService {
 
     private static final String METHOD_NAME = "GetAgenda";
     private static final String METHOD_NAME_ABRIR_AGENDA = "AbrirPesquisa";
+    private static final String METHOD_NAME_FECHAR_AGENDA = "FecharPesquisa";
     private static final String ASMX = "wspesquisa.asmx";
 
 
@@ -98,6 +99,36 @@ public class AgendaService {
 
             HttpTransportSE httpTransportSE = new HttpTransportSE(ConfigService.URL + ASMX);
             httpTransportSE.call(ConfigService.NAMESPACE + METHOD_NAME_ABRIR_AGENDA, envelope);
+
+            resposta = envelope.getResponse().toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resposta;
+
+    }
+
+    public static String FecharPesquisa(int idAgenda) {
+        String resposta = "";
+
+        try {
+            SoapObject request = new SoapObject(ConfigService.NAMESPACE, METHOD_NAME_FECHAR_AGENDA);
+
+            PropertyInfo infoAgenda = new PropertyInfo();
+            infoAgenda.setName("idAgenda");
+            infoAgenda.setType(PropertyInfo.INTEGER_CLASS);
+            infoAgenda.setValue(idAgenda);
+
+            request.addProperty(infoAgenda);
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE httpTransportSE = new HttpTransportSE(ConfigService.URL + ASMX);
+            httpTransportSE.call(ConfigService.NAMESPACE + METHOD_NAME_FECHAR_AGENDA, envelope);
 
             resposta = envelope.getResponse().toString();
 

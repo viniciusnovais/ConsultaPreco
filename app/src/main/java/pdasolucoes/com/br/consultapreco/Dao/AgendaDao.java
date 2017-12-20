@@ -76,7 +76,7 @@ public class AgendaDao {
 
     public List<Agenda> listar() {
         List<Agenda> lista = new ArrayList<>();
-        Cursor cursor = getDatabase().rawQuery("SELECT * FROM agenda", null);
+        Cursor cursor = getDatabase().rawQuery("SELECT * FROM agenda WHERE status <> 2", null);
 
         try {
             while (cursor.moveToNext()) {
